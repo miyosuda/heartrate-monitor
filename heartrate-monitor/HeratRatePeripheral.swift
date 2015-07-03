@@ -1,6 +1,6 @@
 //
 //  HeartRatePeripheral.swift
-//  blue
+//  heartrate-monitor
 //
 //  Created by kosuke miyoshi on 2015/07/02.
 //  Copyright (c) 2015年 kosuke miyoshi. All rights reserved.
@@ -103,7 +103,7 @@ class HeartRatePerihepral: NSObject, CBPeripheralDelegate {
 			var dataPtr: UnsafePointer<UInt8> = UnsafePointer<UInt8>(value.bytes)
 			var dataSize: Int = value.length
 
-			var flags: UInt8 = dataPtr[0];
+			var flags: UInt8 = dataPtr[0]
 			var heartRateFlags = HeartRateFlags(flag: flags)
 
 			// hr value
