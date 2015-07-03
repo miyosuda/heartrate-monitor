@@ -69,7 +69,7 @@ class ViewController: NSViewController, HeartRateDelegate {
         let path = url.path!
         var content = ""
         for rr in heartRateRRIntervalDatas {
-            content += (String("\(rr)") + "¥n")
+            content += (String("\(rr)") + "\n")
         }
         content.writeToFile(path, atomically: false, encoding: NSUTF8StringEncoding, error: nil);
     }
