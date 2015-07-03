@@ -86,8 +86,8 @@
 				47428ACB1B461A480070280A /* HeratRatePeripheral.swift */,
 				47428AAD1B4619C40070280A /* AppDelegate.swift */,
 				47428AAF1B4619C40070280A /* ViewController.swift */,
-				47428AB11B4619C40070280A /* Images.xcassets */,
 				47428AB31B4619C40070280A /* Main.storyboard */,
+				47428AB11B4619C40070280A /* Images.xcassets */,
 				47428AAB1B4619C40070280A /* Supporting Files */,
 			);
 			path = "heartrate-monitor";
