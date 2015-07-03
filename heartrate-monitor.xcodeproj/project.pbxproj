@@ -1,0 +1,425 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		47428AAE1B4619C40070280A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47428AAD1B4619C40070280A /* AppDelegate.swift */; };
+		47428AB01B4619C40070280A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47428AAF1B4619C40070280A /* ViewController.swift */; };
+		47428AB21B4619C40070280A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47428AB11B4619C40070280A /* Images.xcassets */; };
+		47428AB51B4619C40070280A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47428AB31B4619C40070280A /* Main.storyboard */; };
+		47428AC11B4619C50070280A /* heartrate_monitorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47428AC01B4619C50070280A /* heartrate_monitorTests.swift */; };
+		47428ACC1B461A480070280A /* HeartRateCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47428ACA1B461A480070280A /* HeartRateCenter.swift */; };
+		47428ACD1B461A480070280A /* HeratRatePeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47428ACB1B461A480070280A /* HeratRatePeripheral.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		47428ABB1B4619C50070280A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 47428AA01B4619C40070280A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 47428AA71B4619C40070280A;
+			remoteInfo = "heartrate-monitor";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		47428AA81B4619C40070280A /* heartrate-monitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "heartrate-monitor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		47428AAC1B4619C40070280A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		47428AAD1B4619C40070280A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		47428AAF1B4619C40070280A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		47428AB11B4619C40070280A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		47428AB41B4619C40070280A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		47428ABA1B4619C50070280A /* heartrate-monitorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "heartrate-monitorTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		47428ABF1B4619C50070280A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		47428AC01B4619C50070280A /* heartrate_monitorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = heartrate_monitorTests.swift; sourceTree = "<group>"; };
+		47428ACA1B461A480070280A /* HeartRateCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeartRateCenter.swift; sourceTree = "<group>"; };
+		47428ACB1B461A480070280A /* HeratRatePeripheral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeratRatePeripheral.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		47428AA51B4619C40070280A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		47428AB71B4619C50070280A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		47428A9F1B4619C40070280A = {
+			isa = PBXGroup;
+			children = (
+				47428AAA1B4619C40070280A /* heartrate-monitor */,
+				47428ABD1B4619C50070280A /* heartrate-monitorTests */,
+				47428AA91B4619C40070280A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		47428AA91B4619C40070280A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				47428AA81B4619C40070280A /* heartrate-monitor.app */,
+				47428ABA1B4619C50070280A /* heartrate-monitorTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		47428AAA1B4619C40070280A /* heartrate-monitor */ = {
+			isa = PBXGroup;
+			children = (
+				47428ACA1B461A480070280A /* HeartRateCenter.swift */,
+				47428ACB1B461A480070280A /* HeratRatePeripheral.swift */,
+				47428AAD1B4619C40070280A /* AppDelegate.swift */,
+				47428AAF1B4619C40070280A /* ViewController.swift */,
+				47428AB11B4619C40070280A /* Images.xcassets */,
+				47428AB31B4619C40070280A /* Main.storyboard */,
+				47428AAB1B4619C40070280A /* Supporting Files */,
+			);
+			path = "heartrate-monitor";
+			sourceTree = "<group>";
+		};
+		47428AAB1B4619C40070280A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				47428AAC1B4619C40070280A /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		47428ABD1B4619C50070280A /* heartrate-monitorTests */ = {
+			isa = PBXGroup;
+			children = (
+				47428AC01B4619C50070280A /* heartrate_monitorTests.swift */,
+				47428ABE1B4619C50070280A /* Supporting Files */,
+			);
+			path = "heartrate-monitorTests";
+			sourceTree = "<group>";
+		};
+		47428ABE1B4619C50070280A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				47428ABF1B4619C50070280A /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		47428AA71B4619C40070280A /* heartrate-monitor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 47428AC41B4619C50070280A /* Build configuration list for PBXNativeTarget "heartrate-monitor" */;
+			buildPhases = (
+				47428AA41B4619C40070280A /* Sources */,
+				47428AA51B4619C40070280A /* Frameworks */,
+				47428AA61B4619C40070280A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "heartrate-monitor";
+			productName = "heartrate-monitor";
+			productReference = 47428AA81B4619C40070280A /* heartrate-monitor.app */;
+			productType = "com.apple.product-type.application";
+		};
+		47428AB91B4619C50070280A /* heartrate-monitorTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 47428AC71B4619C50070280A /* Build configuration list for PBXNativeTarget "heartrate-monitorTests" */;
+			buildPhases = (
+				47428AB61B4619C50070280A /* Sources */,
+				47428AB71B4619C50070280A /* Frameworks */,
+				47428AB81B4619C50070280A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				47428ABC1B4619C50070280A /* PBXTargetDependency */,
+			);
+			name = "heartrate-monitorTests";
+			productName = "heartrate-monitorTests";
+			productReference = 47428ABA1B4619C50070280A /* heartrate-monitorTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		47428AA01B4619C40070280A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0630;
+				ORGANIZATIONNAME = "narrative nigths";
+				TargetAttributes = {
+					47428AA71B4619C40070280A = {
+						CreatedOnToolsVersion = 6.3.2;
+					};
+					47428AB91B4619C50070280A = {
+						CreatedOnToolsVersion = 6.3.2;
+						TestTargetID = 47428AA71B4619C40070280A;
+					};
+				};
+			};
+			buildConfigurationList = 47428AA31B4619C40070280A /* Build configuration list for PBXProject "heartrate-monitor" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 47428A9F1B4619C40070280A;
+			productRefGroup = 47428AA91B4619C40070280A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				47428AA71B4619C40070280A /* heartrate-monitor */,
+				47428AB91B4619C50070280A /* heartrate-monitorTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		47428AA61B4619C40070280A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				47428AB21B4619C40070280A /* Images.xcassets in Resources */,
+				47428AB51B4619C40070280A /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		47428AB81B4619C50070280A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		47428AA41B4619C40070280A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				47428ACD1B461A480070280A /* HeratRatePeripheral.swift in Sources */,
+				47428ACC1B461A480070280A /* HeartRateCenter.swift in Sources */,
+				47428AB01B4619C40070280A /* ViewController.swift in Sources */,
+				47428AAE1B4619C40070280A /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		47428AB61B4619C50070280A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				47428AC11B4619C50070280A /* heartrate_monitorTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		47428ABC1B4619C50070280A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 47428AA71B4619C40070280A /* heartrate-monitor */;
+			targetProxy = 47428ABB1B4619C50070280A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		47428AB31B4619C40070280A /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				47428AB41B4619C40070280A /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		47428AC21B4619C50070280A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		47428AC31B4619C50070280A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		47428AC51B4619C50070280A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "heartrate-monitor/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		47428AC61B4619C50070280A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "heartrate-monitor/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		47428AC81B4619C50070280A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "heartrate-monitorTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/heartrate-monitor.app/Contents/MacOS/heartrate-monitor";
+			};
+			name = Debug;
+		};
+		47428AC91B4619C50070280A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "heartrate-monitorTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/heartrate-monitor.app/Contents/MacOS/heartrate-monitor";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		47428AA31B4619C40070280A /* Build configuration list for PBXProject "heartrate-monitor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				47428AC21B4619C50070280A /* Debug */,
+				47428AC31B4619C50070280A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		47428AC41B4619C50070280A /* Build configuration list for PBXNativeTarget "heartrate-monitor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				47428AC51B4619C50070280A /* Debug */,
+				47428AC61B4619C50070280A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		47428AC71B4619C50070280A /* Build configuration list for PBXNativeTarget "heartrate-monitorTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				47428AC81B4619C50070280A /* Debug */,
+				47428AC91B4619C50070280A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 47428AA01B4619C40070280A /* Project object */;
+}
