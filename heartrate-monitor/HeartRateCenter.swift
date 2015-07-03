@@ -9,10 +9,17 @@
 import Foundation
 import CoreBluetooth
 
+
 class HeartRateCenter: NSObject, CBCentralManagerDelegate {
 	var centralManager: CBCentralManager!
 	var peripheral: CBPeripheral!
 	var heartRatePeripheral: HeartRatePerihepral!
+
+	weak var delegate: HeartRateDelegate!
+
+	init(delegate: HeartRateDelegate) {
+		self.delegate = delegate
+	}
 
 	func setup() {
 		self.centralManager = CBCentralManager(delegate: self, queue: nil)
@@ -74,8 +81,9 @@ class HeartRateCenter: NSObject, CBCentralManagerDelegate {
 						didConnectPeripheral peripheral: CBPeripheral!) {
 
 		println("connected!")
+		delegate.heartRateDeviceDidConnect()
 
-		heartRatePeripheral = HeartRatePerihepral()
+		heartRatePeripheral = HeartRatePerihepral(delegate: delegate)
 		heartRatePeripheral.setup(peripheral)
 	}
 
@@ -85,6 +93,7 @@ class HeartRateCenter: NSObject, CBCentralManagerDelegate {
 
 	func centralManager(central: CBCentralManager!, didDisconnectPeripheral peripheral: CBPeripheral!, error: NSError!) {
 		println("didDisconnectPeripheral")
+		delegate.heartRateDeviceDidDisconnect()
 	}
 
 }

@@ -14,6 +14,7 @@
 		47428AC11B4619C50070280A /* heartrate_monitorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47428AC01B4619C50070280A /* heartrate_monitorTests.swift */; };
 		47428ACC1B461A480070280A /* HeartRateCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47428ACA1B461A480070280A /* HeartRateCenter.swift */; };
 		47428ACD1B461A480070280A /* HeratRatePeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47428ACB1B461A480070280A /* HeratRatePeripheral.swift */; };
+		47428ACF1B46267E0070280A /* HeartRateDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47428ACE1B46267E0070280A /* HeartRateDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,7 @@
 		47428AC01B4619C50070280A /* heartrate_monitorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = heartrate_monitorTests.swift; sourceTree = "<group>"; };
 		47428ACA1B461A480070280A /* HeartRateCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeartRateCenter.swift; sourceTree = "<group>"; };
 		47428ACB1B461A480070280A /* HeratRatePeripheral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeratRatePeripheral.swift; sourceTree = "<group>"; };
+		47428ACE1B46267E0070280A /* HeartRateDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeartRateDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 		47428AAA1B4619C40070280A /* heartrate-monitor */ = {
 			isa = PBXGroup;
 			children = (
+				47428ACE1B46267E0070280A /* HeartRateDelegate.swift */,
 				47428ACA1B461A480070280A /* HeartRateCenter.swift */,
 				47428ACB1B461A480070280A /* HeratRatePeripheral.swift */,
 				47428AAD1B4619C40070280A /* AppDelegate.swift */,
@@ -217,6 +220,7 @@
 				47428ACD1B461A480070280A /* HeratRatePeripheral.swift in Sources */,
 				47428ACC1B461A480070280A /* HeartRateCenter.swift in Sources */,
 				47428AB01B4619C40070280A /* ViewController.swift in Sources */,
+				47428ACF1B46267E0070280A /* HeartRateDelegate.swift in Sources */,
 				47428AAE1B4619C40070280A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

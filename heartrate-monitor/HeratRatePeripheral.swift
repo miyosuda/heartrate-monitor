@@ -38,6 +38,12 @@ class HeartRatePerihepral: NSObject, CBPeripheralDelegate {
 	let HEART_RATE_SERVICE: String = "180D"
 	let HEART_RATE_MEASUREMENT: String = "2A37"
 
+	weak var delegate: HeartRateDelegate!
+
+	init(delegate: HeartRateDelegate) {
+		self.delegate = delegate
+	}
+
 	func setup(peripheral: CBPeripheral) {
 		peripheral.delegate = self;
 		// NOTE you might only discover HR service, but on this example we discover all services
@@ -129,6 +135,7 @@ class HeartRatePerihepral: NSObject, CBPeripheralDelegate {
 					var rrValue: UInt16 = getUInt16Value(dataPtr, offset: offset)
 					var rr: Double = (Double(rrValue) / 1024.0) * 1000.0
 					println("rr=\(rr)")
+					delegate.heartRateRRDidArrive(rr)
 					offset += 2
 				}
 			}

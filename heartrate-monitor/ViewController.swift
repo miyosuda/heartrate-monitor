@@ -8,19 +8,22 @@
 
 import Cocoa
 
-class ViewController: NSViewController{
-	var heartRateCenter : HeartRateCenter = HeartRateCenter()
+class ViewController: NSViewController, HeartRateDelegate {
+	@IBOutlet weak var startButton: NSButtonCell!
+
+	var heartRateCenter: HeartRateCenter!
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-
-		heartRateCenter.setup()
 	}
 
 	override func viewWillDisappear() {
 		println("viewWillDisappear")
 
-		heartRateCenter.cleanup()
+		if heartRateCenter != nil {
+			heartRateCenter.cleanup()
+			heartRateCenter = nil
+		}
 	}
 
 	override var representedObject: AnyObject? {
@@ -28,5 +31,27 @@ class ViewController: NSViewController{
 		}
 	}
 
-}
+	@IBAction func onStartButtonPushed(sender: AnyObject) {
+		if (heartRateCenter == nil) {
+			heartRateCenter = HeartRateCenter(delegate: self)
+			heartRateCenter.setup()
+			startButton.title = "Stop"
+		} else {
+			heartRateCenter.cleanup()
+			heartRateCenter = nil
+			startButton.title = "Start"
+		}
+	}
 
+	func heartRateDeviceDidConnect() {
+        println("<connect>")
+	}
+
+	func heartRateDeviceDidDisconnect() {
+        println("<disconnect>")
+	}
+
+	func heartRateRRDidArrive(rr: Double) {
+        println("<rr=\(rr)>")
+	}
+}
