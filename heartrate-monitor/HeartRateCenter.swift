@@ -68,7 +68,7 @@ class HeartRateCenter: NSObject, CBCentralManagerDelegate {
 						advertisementData: [NSObject:AnyObject]!,
 						RSSI: NSNumber!) {
 
-		println("peripheral: \(peripheral) rssi=\(RSSI)")
+		println("peripheral: \(peripheral) rssi=\(RSSI) data=\(advertisementData)")
 
 		// 何故かここで参照を保存しておかないとうまく動かない？
 		self.peripheral = peripheral

@@ -91,10 +91,25 @@ class ViewController: NSViewController, HeartRateDelegate {
 
 	func saveRRIntervalData(url: NSURL) {
 		let path = url.path!
+        
+        // save as plain format (in millisec)
+        /*
 		var content = ""
 		for rr in heartRateRRIntervalDatas {
 			content += (String("\(rr)") + "\n")
 		}
+        */
+
+        // save as ihr format (testing)
+        var content = ""
+        var time = 0.0
+        for rr in heartRateRRIntervalDatas {
+            var bpm = 60.0 * 1000.0 / rr;
+            // I don't know what "0" at thrird colum means.
+            content += (String("\(time)\t\(bpm)\t0") + "\n")
+            time += (rr / 1000.0)
+        }
+        
 		content.writeToFile(path, atomically: false, encoding: NSUTF8StringEncoding, error: nil);
 	}
 
