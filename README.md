@@ -1,5 +1,8 @@
 # heartrate-monitor
-heart rate monitor for Polar H7/H6 on MacOSX
+
+heart rate monitor for Polar H7/H6 on MacOSX.
+
+You can record all heart rate RR interval data into text file with this app.
 
 ## About
 
