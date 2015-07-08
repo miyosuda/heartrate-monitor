@@ -12,7 +12,7 @@ import CoreBluetooth
 
 class HeartRateCenter: NSObject, CBCentralManagerDelegate {
 	var centralManager: CBCentralManager!
-	var peripheral: CBPeripheral!
+    var peripheral: CBPeripheral!
 	var heartRatePeripheral: HeartRatePerihepral!
 
 	weak var delegate: HeartRateDelegate!
@@ -70,10 +70,10 @@ class HeartRateCenter: NSObject, CBCentralManagerDelegate {
 
 		println("peripheral: \(peripheral) rssi=\(RSSI) data=\(advertisementData)")
 
-		// 何故かここで参照を保存しておかないとうまく動かない？
+		// we need to store reference to peripheral
 		self.peripheral = peripheral
-
-		self.centralManager.connectPeripheral(peripheral, options: nil)
+                            
+		self.centralManager.connectPeripheral(self.peripheral, options: nil)
 		self.centralManager.stopScan()
 	}
 

@@ -49,6 +49,8 @@ class ViewController: NSViewController, HeartRateDelegate {
 			stateLabel.stringValue = "connecting"
 
 			heartRateRRIntervalDatas = [Double]()
+            heartRateRRCount = 0;
+            duration = 0.0
 
 			startButton.title = "Stop"
 		} else {
@@ -92,15 +94,8 @@ class ViewController: NSViewController, HeartRateDelegate {
 	func saveRRIntervalData(url: NSURL) {
 		let path = url.path!
         
-        // save as plain format (in millisec)
-        /*
-		var content = ""
-		for rr in heartRateRRIntervalDatas {
-			content += (String("\(rr)") + "\n")
-		}
-        */
-
         // save as ihr format (testing)
+        /*
         var content = ""
         var time = 0.0
         for rr in heartRateRRIntervalDatas {
@@ -108,6 +103,16 @@ class ViewController: NSViewController, HeartRateDelegate {
             // I don't know what "0" at thrird colum means.
             content += (String("\(time)\t\(bpm)\t0") + "\n")
             time += (rr / 1000.0)
+        }
+        */
+        
+        // rr interval
+        var content = ""
+        var time = 0.0
+        for rr in heartRateRRIntervalDatas {
+            var rrSec = rr / 1000.0;
+            content += (String("\(time)\t\(rrSec)") + "\n")
+            time += rrSec
         }
         
 		content.writeToFile(path, atomically: false, encoding: NSUTF8StringEncoding, error: nil);
