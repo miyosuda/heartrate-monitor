@@ -32,7 +32,7 @@ class HeartRateCenter: NSObject, CBCentralManagerDelegate {
 	}
 
 	func cleanup() {
-		println("disconnecting peripheral")
+		print("disconnecting peripheral")
 
 		if self.heartRatePeripheral != nil {
 			self.centralManager.cancelPeripheralConnection(self.peripheral)
@@ -40,35 +40,35 @@ class HeartRateCenter: NSObject, CBCentralManagerDelegate {
 		}
 	}
 
-	func centralManagerDidUpdateState(central: CBCentralManager!) {
+	func centralManagerDidUpdateState(central: CBCentralManager) {
 		switch (central.state) {
 		case .Unknown:
-			println("state: unknown")
+			print("state: unknown")
 			break;
 		case .Resetting:
-			println("state: resetting")
+			print("state: resetting")
 			break;
 		case .Unsupported:
-			println("state: unsupported")
+			print("state: unsupported")
 			break;
 		case .Unauthorized:
-			println("state: unauthorized")
+			print("state: unauthorized")
 			break;
 		case .PoweredOff:
-			println("state: power off")
+			print("state: power off")
 			break;
 		case .PoweredOn:
-			println("state: power on")
+			print("state: power on")
 			break;
 		}
 	}
 
-	func centralManager(central: CBCentralManager!,
-						didDiscoverPeripheral peripheral: CBPeripheral!,
-						advertisementData: [NSObject:AnyObject]!,
-						RSSI: NSNumber!) {
+	func centralManager(central: CBCentralManager,
+						didDiscoverPeripheral peripheral: CBPeripheral,
+						advertisementData: [String:AnyObject],
+						RSSI: NSNumber) {
 
-		println("peripheral: \(peripheral) rssi=\(RSSI) data=\(advertisementData)")
+		print("peripheral: \(peripheral) rssi=\(RSSI) data=\(advertisementData)")
 
 		// we need to store reference to peripheral
 		self.peripheral = peripheral
@@ -77,22 +77,22 @@ class HeartRateCenter: NSObject, CBCentralManagerDelegate {
 		self.centralManager.stopScan()
 	}
 
-	func centralManager(central: CBCentralManager!,
-						didConnectPeripheral peripheral: CBPeripheral!) {
+	func centralManager(central: CBCentralManager,
+						didConnectPeripheral peripheral: CBPeripheral) {
 
-		println("connected!")
+		print("connected!")
 		delegate.heartRateDeviceDidConnect()
 
 		heartRatePeripheral = HeartRatePerihepral(delegate: delegate)
 		heartRatePeripheral.setup(peripheral)
 	}
 
-	func centralManager(central: CBCentralManager!, didFailToConnectPeripheral peripheral: CBPeripheral!, error: NSError!) {
-		println("didFailToConnectPeripheral")
+	func centralManager(central: CBCentralManager, didFailToConnectPeripheral peripheral: CBPeripheral, error: NSError?) {
+		print("didFailToConnectPeripheral")
 	}
 
-	func centralManager(central: CBCentralManager!, didDisconnectPeripheral peripheral: CBPeripheral!, error: NSError!) {
-		println("didDisconnectPeripheral")
+	func centralManager(central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: NSError?) {
+		print("didDisconnectPeripheral")
 		delegate.heartRateDeviceDidDisconnect()
 	}
 

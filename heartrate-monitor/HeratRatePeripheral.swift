@@ -52,32 +52,32 @@ class HeartRatePerihepral: NSObject, CBPeripheralDelegate {
 
 	func peripheral(peripheral: CBPeripheral, didDiscoverServices error: NSError?) {
 
-		println("didDiscoverServices")
+		print("didDiscoverServices")
 
 		if error != nil {
 			return;
 		}
 
-		for service in peripheral.services {
+		for service in peripheral.services! {
 			if service.UUID == CBUUID(string: HEART_RATE_SERVICE) {
-				var service: CBService = service as! CBService;
+				let service: CBService = service as CBService;
 				peripheral.discoverCharacteristics(nil, forService: service);
 			}
 		}
 	}
 
 	func peripheral(peripheral: CBPeripheral, didDiscoverCharacteristicsForService service: CBService,
-					error: NSError!) {
+					error: NSError?) {
 
-		println("didDiscoverCharacteristicsForService")
+		print("didDiscoverCharacteristicsForService")
 
 		if error != nil {
 			return;
 		}
 
 		if service.UUID == CBUUID(string: HEART_RATE_SERVICE) {
-			for character in service.characteristics {
-				var ch: CBCharacteristic = character as! CBCharacteristic;
+			for character in service.characteristics! {
+				let ch: CBCharacteristic = character as CBCharacteristic;
 				if ch.UUID == CBUUID(string: HEART_RATE_MEASUREMENT) {
 					peripheral.setNotifyValue(true, forCharacteristic: ch)
 				}
@@ -85,46 +85,46 @@ class HeartRatePerihepral: NSObject, CBPeripheralDelegate {
 		}
 	}
 
-	func getUInt16Value(dataPtr: UnsafePointer<UInt8>, offset offset: Int) -> UInt16 {
-		var value0: UInt32 = UInt32(dataPtr[offset + 1])
-		var value1: UInt32 = UInt32(dataPtr[offset])
+    func getUInt16Value(dataPtr: UnsafePointer<UInt8>, offset: Int) -> UInt16 {
+		let value0: UInt32 = UInt32(dataPtr[offset + 1])
+		let value1: UInt32 = UInt32(dataPtr[offset])
 		return UInt16(value0 << 8 + value1)
 	}
 
 	func peripheral(peripheral: CBPeripheral, didUpdateValueForCharacteristic characteristic: CBCharacteristic,
-					error: NSError!) {
+					error: NSError?) {
 
 		if error != nil {
 			return;
 		}
 
 		if characteristic.UUID == CBUUID(string: HEART_RATE_MEASUREMENT) {
-			var value: NSData = characteristic.value()
-			var dataPtr: UnsafePointer<UInt8> = UnsafePointer<UInt8>(value.bytes)
-			var dataSize: Int = value.length
+			let value: NSData? = characteristic.value
+			let dataPtr: UnsafePointer<UInt8> = UnsafePointer<UInt8>(value!.bytes)
+			let dataSize: Int = value!.length
 
-			var flags: UInt8 = dataPtr[0]
-			var heartRateFlags = HeartRateFlags(flag: flags)
+			let flags: UInt8 = dataPtr[0]
+			let heartRateFlags = HeartRateFlags(flag: flags)
 
 			// hr value
 			var offset: Int = 1
 			if heartRateFlags.getHRSize() == 2 {
 				// 2byte
-				var hrValue: UInt16 = getUInt16Value(dataPtr, offset: offset)
-				println("hr=\(hrValue)")
+				let hrValue: UInt16 = getUInt16Value(dataPtr, offset: offset)
+				print("hr=\(hrValue)")
 				offset += 2
 			} else {
 				// 1byte
-				var hrValue: UInt8 = dataPtr[offset];
-				println("hr=\(hrValue)")
+				let hrValue: UInt8 = dataPtr[offset];
+				print("hr=\(hrValue)")
 				offset += 1
 			}
 
 			// energy value
 			if heartRateFlags.energy_expended != 0 {
 				// 2byte
-				var energyValue: UInt16 = getUInt16Value(dataPtr, offset: offset)
-				println("energy=\(energyValue)")
+				let energyValue: UInt16 = getUInt16Value(dataPtr, offset: offset)
+				print("energy=\(energyValue)")
 				offset += 2
 			}
 
@@ -132,9 +132,9 @@ class HeartRatePerihepral: NSObject, CBPeripheralDelegate {
 			if heartRateFlags.rr_interval != 0 {
 				while offset < dataSize {
 					// 2byte
-					var rrValue: UInt16 = getUInt16Value(dataPtr, offset: offset)
-					var rr: Double = (Double(rrValue) / 1024.0) * 1000.0
-					println("rr=\(rr)")
+					let rrValue: UInt16 = getUInt16Value(dataPtr, offset: offset)
+					let rr: Double = (Double(rrValue) / 1024.0) * 1000.0
+					print("rr=\(rr)")
 					delegate.heartRateRRDidArrive(rr)
 					offset += 2
 				}

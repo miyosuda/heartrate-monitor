@@ -28,7 +28,7 @@ class ViewController: NSViewController, HeartRateDelegate {
 	}
 
 	override func viewWillDisappear() {
-		println("viewWillDisappear")
+		print("viewWillDisappear")
 
 		if heartRateCenter != nil {
 			heartRateCenter.cleanup()
@@ -66,7 +66,7 @@ class ViewController: NSViewController, HeartRateDelegate {
 
 	func saveData() {
 		if heartRateRRIntervalDatas.count > 0 {
-			var panel = NSSavePanel()
+			let panel = NSSavePanel()
 			panel.nameFieldLabel = "File Name"
 
             // set default filename
@@ -81,9 +81,9 @@ class ViewController: NSViewController, HeartRateDelegate {
 			panel.beginWithCompletionHandler({
 				(result: Int) -> Void in
 				if result == NSFileHandlingPanelOKButton {
-					var saveURL = panel.URL
+					let saveURL = panel.URL
 					if (saveURL != nil) {
-						println("save url=\(saveURL)")
+						print("save url=\(saveURL)")
 						self.saveRRIntervalData(saveURL!)
 					}
 				}
@@ -94,50 +94,39 @@ class ViewController: NSViewController, HeartRateDelegate {
 	func saveRRIntervalData(url: NSURL) {
 		let path = url.path!
         
-        // save as ihr format (testing)
-        /*
+        // rr msec interval
         var content = ""
-        var time = 0.0
         for rr in heartRateRRIntervalDatas {
-            var bpm = 60.0 * 1000.0 / rr;
-            // I don't know what "0" at thrird colum means.
-            content += (String("\(time)\t\(bpm)\t0") + "\n")
-            time += (rr / 1000.0)
-        }
-        */
-        
-        // rr interval
-        var content = ""
-        var time = 0.0
-        for rr in heartRateRRIntervalDatas {
-            var rrSec = rr / 1000.0;
-            content += (String("\(time)\t\(rrSec)") + "\n")
-            time += rrSec
+            content += (String("\(rr)") + "\n")
         }
         
-		content.writeToFile(path, atomically: false, encoding: NSUTF8StringEncoding, error: nil);
+        do {
+            try content.writeToFile(path, atomically: false, encoding: NSUTF8StringEncoding);
+        } catch let err as NSError {
+             print("write to file failed: " + err.localizedDescription)
+        }
 	}
 
 
 	func heartRateDeviceDidConnect() {
-		println("<connect>")
+		print("<connect>")
 		stateLabel.stringValue = "connected"
 	}
 
 	func heartRateDeviceDidDisconnect() {
-		println("<disconnect>")
+		print("<disconnect>")
 		stateLabel.stringValue = "disconnected"
 	}
 
 	func heartRateRRDidArrive(rr: Double) {
-		println("<rr=\(rr)>")
+		print("<rr=\(rr)>")
 		heartRateRRIntervalDatas.append(rr);
 
 		duration += (rr / 1000.0);
 
 		heartRateRRCount++;
 		heartRateRRCountLabel.stringValue = String("\(heartRateRRCount)")
-		var heartRateValue = 60.0 * 1000.0 / rr;
+		let heartRateValue = 60.0 * 1000.0 / rr;
 		heartRateValueLabel.stringValue = String(format: "%.2f", heartRateValue)
 		durationLabel.stringValue = String(format: "%.1f sec", duration)
 	}
