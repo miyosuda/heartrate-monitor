@@ -49,8 +49,8 @@ class ViewController: NSViewController, HeartRateDelegate {
 			stateLabel.stringValue = "connecting"
 
 			heartRateRRIntervalDatas = [Double]()
-            heartRateRRCount = 0;
-            duration = 0.0
+			heartRateRRCount = 0;
+			duration = 0.0
 
 			startButton.title = "Stop"
 		} else {
@@ -60,8 +60,23 @@ class ViewController: NSViewController, HeartRateDelegate {
 
 			stateLabel.stringValue = "init"
 
+			analyzeIntervals()
+
 			saveData()
 		}
+	}
+
+	func analyzeIntervals() {
+		// testing with raw data (not interpolated)
+		let avnn = HRVUtils.calcAVNN(heartRateRRIntervalDatas)
+		let sdnn = HRVUtils.calcSDNN(heartRateRRIntervalDatas)
+		let rmssd = HRVUtils.calcRMSSD(heartRateRRIntervalDatas)
+		let pnn50 = HRVUtils.calcPNN50(heartRateRRIntervalDatas)
+
+		print("AVNN = \(avnn)")
+		print("SDNN = \(sdnn)")
+		print("RMSSD = \(rmssd)")
+		print("pnn50 = \(pnn50)")
 	}
 
 	func saveData() {
@@ -69,15 +84,15 @@ class ViewController: NSViewController, HeartRateDelegate {
 			let panel = NSSavePanel()
 			panel.nameFieldLabel = "File Name"
 
-            // set default filename
+			// set default filename
 			let dateFormatter = NSDateFormatter()
 			dateFormatter.locale = NSLocale(localeIdentifier: "en_US")
 			dateFormatter.dateFormat = "yyyyMMdd_HHmmss"
-            let now = NSDate()
+			let now = NSDate()
 			let dateStr = dateFormatter.stringFromDate(now)
-            panel.nameFieldStringValue = String(format:"rr_\(dateStr).txt")
+			panel.nameFieldStringValue = String(format: "rr_\(dateStr).txt")
 
-            // show save dialog
+			// show save dialog
 			panel.beginWithCompletionHandler({
 				(result: Int) -> Void in
 				if result == NSFileHandlingPanelOKButton {
@@ -93,18 +108,18 @@ class ViewController: NSViewController, HeartRateDelegate {
 
 	func saveRRIntervalData(url: NSURL) {
 		let path = url.path!
-        
-        // rr msec interval
-        var content = ""
-        for rr in heartRateRRIntervalDatas {
-            content += (String("\(rr)") + "\n")
-        }
-        
-        do {
-            try content.writeToFile(path, atomically: false, encoding: NSUTF8StringEncoding);
-        } catch let err as NSError {
-             print("write to file failed: " + err.localizedDescription)
-        }
+
+		// rr msec interval
+		var content = ""
+		for rr in heartRateRRIntervalDatas {
+			content += (String("\(rr)") + "\n")
+		}
+
+		do {
+			try content.writeToFile(path, atomically: false, encoding: NSUTF8StringEncoding);
+		} catch let err as NSError {
+			print("write to file failed: " + err.localizedDescription)
+		}
 	}
 
 
