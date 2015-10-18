@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  standblue
+//  heartrate-monitor
 //
 //  Created by kosuke miyoshi on 2015/07/02.
 //  Copyright (c) 2015年 narrative nigths. All rights reserved.

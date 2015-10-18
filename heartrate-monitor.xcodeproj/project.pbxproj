@@ -15,6 +15,7 @@
 		47428ACC1B461A480070280A /* HeartRateCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47428ACA1B461A480070280A /* HeartRateCenter.swift */; };
 		47428ACD1B461A480070280A /* HeratRatePeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47428ACB1B461A480070280A /* HeratRatePeripheral.swift */; };
 		47428ACF1B46267E0070280A /* HeartRateDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47428ACE1B46267E0070280A /* HeartRateDelegate.swift */; };
+		47EF81371BD41396004FDFDA /* HRVUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EF81361BD41396004FDFDA /* HRVUtils.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		47428ACA1B461A480070280A /* HeartRateCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeartRateCenter.swift; sourceTree = "<group>"; };
 		47428ACB1B461A480070280A /* HeratRatePeripheral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeratRatePeripheral.swift; sourceTree = "<group>"; };
 		47428ACE1B46267E0070280A /* HeartRateDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeartRateDelegate.swift; sourceTree = "<group>"; };
+		47EF81361BD41396004FDFDA /* HRVUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HRVUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +88,7 @@
 				47428ACB1B461A480070280A /* HeratRatePeripheral.swift */,
 				47428AAD1B4619C40070280A /* AppDelegate.swift */,
 				47428AAF1B4619C40070280A /* ViewController.swift */,
+				47EF81361BD41396004FDFDA /* HRVUtils.swift */,
 				47428AB31B4619C40070280A /* Main.storyboard */,
 				47428AB11B4619C40070280A /* Images.xcassets */,
 				47428AAB1B4619C40070280A /* Supporting Files */,
@@ -218,6 +221,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47EF81371BD41396004FDFDA /* HRVUtils.swift in Sources */,
 				47428ACD1B461A480070280A /* HeratRatePeripheral.swift in Sources */,
 				47428ACC1B461A480070280A /* HeartRateCenter.swift in Sources */,
 				47428AB01B4619C40070280A /* ViewController.swift in Sources */,
