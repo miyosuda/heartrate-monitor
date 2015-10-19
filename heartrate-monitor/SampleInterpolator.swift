@@ -76,15 +76,15 @@ class Sample {
 }
 
 class SampleInterpolator {
-    private var beats : [Beat] = []
-	private var samples : [Sample] = []
-
-	func process( intervals: [Double] ) {
+	static func process( intervals: [Double] ) ->[Double]? {
+        var beats : [Beat] = []
+        var samples : [Sample] = []
+        
 		let intervalSize = intervals.count
 		
         if intervalSize < 1 {
 			print("intervals were too short\n")
-			return
+			return nil
 		}
 		
 		var time = 0.0
@@ -108,7 +108,9 @@ class SampleInterpolator {
 		let sampleSize = endTimeSec + 1
 		
 		for var i=0; i<sampleSize; ++i {
-			samples[i].time = Double(i * 1000)
+            let sample = Sample()
+            sample.time = Double(i * 1000)
+			samples.append(sample)
 		}
 		
 		for var i=0; i<beats.count; ++i {
@@ -116,9 +118,9 @@ class SampleInterpolator {
 			let time = beat.time
 			let beforeTimeSec = Int(floor(time / 1000.0))
 			
-			// if beatIndex1 is already set, it is ignored
-			// (Because earlier beatIndex1 is needed, and so
-			// later one is not invalid)
+			// if beatIndex1 is already set, new one ignored.
+			// (Because former beatIndex1 is needed, and so
+			// later one is ignored.)
 			samples[beforeTimeSec].setBeatIndex1(i)
 		}
 		
@@ -140,9 +142,14 @@ class SampleInterpolator {
 		for sample in samples {
 			sample.setup()
 		}
+        
+        var resampledIntervals : [Double] = []
 		
 		for sample in samples {
 			sample.resampleInterval(beats)
+            resampledIntervals.append(sample.resampledInterval)
 		}
+        
+        return resampledIntervals
 	}
 }

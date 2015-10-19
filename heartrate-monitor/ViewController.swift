@@ -77,6 +77,11 @@ class ViewController: NSViewController, HeartRateDelegate {
 		print("SDNN = \(sdnn)")
 		print("RMSSD = \(rmssd)")
 		print("pNN50 = \(pnn50)")
+        
+        let resampledIntervals = SampleInterpolator.process(heartRateRRIntervalDatas)
+        if resampledIntervals != nil {
+            // TODO:
+        }
 	}
 
 	func saveData() {
