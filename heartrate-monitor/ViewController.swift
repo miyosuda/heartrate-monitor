@@ -76,7 +76,7 @@ class ViewController: NSViewController, HeartRateDelegate {
 		print("AVNN = \(avnn)")
 		print("SDNN = \(sdnn)")
 		print("RMSSD = \(rmssd)")
-		print("pnn50 = \(pnn50)")
+		print("pNN50 = \(pnn50)")
 	}
 
 	func saveData() {
