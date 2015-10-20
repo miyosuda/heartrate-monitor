@@ -65,6 +65,10 @@ class ViewController: NSViewController, HeartRateDelegate {
 			saveData()
 		}
 	}
+    
+    @IBAction func onLoadButtonPushed(sender: AnyObject) {
+        chooseLoadData()
+    }
 
 	func analyzeIntervals() {
 		// testing with raw data (not interpolated)
@@ -83,6 +87,50 @@ class ViewController: NSViewController, HeartRateDelegate {
             // TODO:
         }
 	}
+    
+    func chooseLoadData() {
+        let panel = NSOpenPanel()
+        panel.allowsMultipleSelection = false
+        panel.canChooseDirectories = false
+        panel.canCreateDirectories = false
+        panel.canChooseFiles = true
+        panel.allowedFileTypes = ["txt"]
+        panel.beginWithCompletionHandler { (result) -> Void in
+            if result == NSFileHandlingPanelOKButton {
+                self.loadData(panel.URL)
+            }
+        }
+    }
+    
+    func loadData(url: NSURL?) {
+        if url == nil {
+            return
+        }
+        
+        let path = url!.path!
+        
+        var data : String? = nil
+        do {
+            try data = NSString(contentsOfFile: path, encoding: NSUTF8StringEncoding) as String
+        } catch let err as NSError {
+            print("write to file failed: " + err.localizedDescription)
+        }
+        
+        if data == nil {
+            return
+        }
+        
+        var intervals : [Double] = []
+        data!.enumerateLines { (line, stop) -> () in
+            let interval = atof(line)
+            print("\(interval)")
+            intervals.append(interval)
+        }
+            
+        heartRateRRIntervalDatas = intervals
+        
+        analyzeIntervals()
+    }
 
 	func saveData() {
 		if heartRateRRIntervalDatas.count > 0 {
