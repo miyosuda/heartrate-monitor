@@ -82,11 +82,8 @@ class ViewController: NSViewController, HeartRateDelegate {
 		print("RMSSD = \(rmssd)")
 		print("pNN50 = \(pnn50)")
         
-        let resampledIntervals = SampleInterpolator.process(heartRateRRIntervalDatas)
-        if resampledIntervals != nil {
-            // TODO:
-        }
-	}
+        //..SpectrumAnalyzer.process(heartRateRRIntervalDatas)
+    }
     
     func chooseLoadData() {
         let panel = NSOpenPanel()
