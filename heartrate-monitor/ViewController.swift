@@ -76,7 +76,6 @@ class ViewController: NSViewController, HeartRateDelegate {
 	}
 
 	func analyzeIntervals() {
-		// testing with raw data (not interpolated)
 		let avnn = HRVUtils.calcAVNN(heartRateRRIntervalDatas)
 		let sdnn = HRVUtils.calcSDNN(heartRateRRIntervalDatas)
 		let rmssd = HRVUtils.calcRMSSD(heartRateRRIntervalDatas)
@@ -87,12 +86,10 @@ class ViewController: NSViewController, HeartRateDelegate {
 		rmssdLabel.stringValue = String(format: "%.2f", rmssd)
 		pnn50Label.stringValue = String(format: "%.2f", pnn50)
 
-		print("AVNN = \(avnn)")
-		print("SDNN = \(sdnn)")
-		print("RMSSD = \(rmssd)")
-		print("pNN50 = \(pnn50)")
-
-		SpectrumAnalyzer.process(heartRateRRIntervalDatas)
+		let copiedHeartRateRRIntervalDatas = heartRateRRIntervalDatas
+		dispatch_async(dispatch_get_main_queue()) {
+			SpectrumAnalyzer.process(copiedHeartRateRRIntervalDatas)
+		}
 	}
 
 	func chooseLoadData() {

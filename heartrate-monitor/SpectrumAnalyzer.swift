@@ -234,8 +234,12 @@ class SpectrumAnalyzer {
 
 		var minAic = DBL_MAX
 		var bestDegree = -1
-		let maxDegree = 50
+		var maxDegree = 50
 		var bestCoeffcients: [Double]? = nil
+
+		if maxDegree > intervals.count {
+			maxDegree = intervals.count
+		}
 
 		var aics = [Double](count: maxDegree, repeatedValue: DBL_MAX)
 
