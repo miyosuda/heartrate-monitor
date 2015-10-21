@@ -16,6 +16,11 @@ class ViewController: NSViewController, HeartRateDelegate {
 	@IBOutlet weak var heartRateValueLabel: NSTextField!
 	@IBOutlet weak var durationLabel: NSTextField!
 
+	@IBOutlet weak var avnnLabel: NSTextField!
+	@IBOutlet weak var sdnnLabel: NSTextField!
+	@IBOutlet weak var rmssdLabel: NSTextField!
+	@IBOutlet weak var pnn50Label: NSTextField!
+
 	var heartRateCenter: HeartRateCenter!
 	var heartRateRRIntervalDatas: [Double]!
 	var heartRateRRCount = 0;
@@ -65,10 +70,10 @@ class ViewController: NSViewController, HeartRateDelegate {
 			saveData()
 		}
 	}
-    
-    @IBAction func onLoadButtonPushed(sender: AnyObject) {
-        chooseLoadData()
-    }
+
+	@IBAction func onLoadButtonPushed(sender: AnyObject) {
+		chooseLoadData()
+	}
 
 	func analyzeIntervals() {
 		// testing with raw data (not interpolated)
@@ -77,57 +82,63 @@ class ViewController: NSViewController, HeartRateDelegate {
 		let rmssd = HRVUtils.calcRMSSD(heartRateRRIntervalDatas)
 		let pnn50 = HRVUtils.calcPNN50(heartRateRRIntervalDatas)
 
+		avnnLabel.stringValue = String(format: "%.2f", avnn)
+		sdnnLabel.stringValue = String(format: "%.2f", sdnn)
+		rmssdLabel.stringValue = String(format: "%.2f", rmssd)
+		pnn50Label.stringValue = String(format: "%.2f", pnn50)
+
 		print("AVNN = \(avnn)")
 		print("SDNN = \(sdnn)")
 		print("RMSSD = \(rmssd)")
 		print("pNN50 = \(pnn50)")
-        
-        //..SpectrumAnalyzer.process(heartRateRRIntervalDatas)
-    }
-    
-    func chooseLoadData() {
-        let panel = NSOpenPanel()
-        panel.allowsMultipleSelection = false
-        panel.canChooseDirectories = false
-        panel.canCreateDirectories = false
-        panel.canChooseFiles = true
-        panel.allowedFileTypes = ["txt"]
-        panel.beginWithCompletionHandler { (result) -> Void in
-            if result == NSFileHandlingPanelOKButton {
-                self.loadData(panel.URL)
-            }
-        }
-    }
-    
-    func loadData(url: NSURL?) {
-        if url == nil {
-            return
-        }
-        
-        let path = url!.path!
-        
-        var data : String? = nil
-        do {
-            try data = NSString(contentsOfFile: path, encoding: NSUTF8StringEncoding) as String
-        } catch let err as NSError {
-            print("write to file failed: " + err.localizedDescription)
-        }
-        
-        if data == nil {
-            return
-        }
-        
-        var intervals : [Double] = []
-        data!.enumerateLines { (line, stop) -> () in
-            let interval = atof(line)
-            print("\(interval)")
-            intervals.append(interval)
-        }
-            
-        heartRateRRIntervalDatas = intervals
-        
-        analyzeIntervals()
-    }
+
+		SpectrumAnalyzer.process(heartRateRRIntervalDatas)
+	}
+
+	func chooseLoadData() {
+		let panel = NSOpenPanel()
+		panel.allowsMultipleSelection = false
+		panel.canChooseDirectories = false
+		panel.canCreateDirectories = false
+		panel.canChooseFiles = true
+		panel.allowedFileTypes = ["txt"]
+		panel.beginWithCompletionHandler {
+			(result) -> Void in
+			if result == NSFileHandlingPanelOKButton {
+				self.loadData(panel.URL)
+			}
+		}
+	}
+
+	func loadData(url: NSURL?) {
+		if url == nil {
+			return
+		}
+
+		let path = url!.path!
+
+		var data: String? = nil
+		do {
+			try data = NSString(contentsOfFile: path, encoding: NSUTF8StringEncoding) as String
+		} catch let err as NSError {
+			print("write to file failed: " + err.localizedDescription)
+		}
+
+		if data == nil {
+			return
+		}
+
+		var intervals: [Double] = []
+		data!.enumerateLines {
+			(line, stop) -> () in
+			let interval = atof(line)
+			intervals.append(interval)
+		}
+
+		heartRateRRIntervalDatas = intervals
+
+		analyzeIntervals()
+	}
 
 	func saveData() {
 		if heartRateRRIntervalDatas.count > 0 {
