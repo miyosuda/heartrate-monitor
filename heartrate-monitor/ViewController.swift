@@ -20,6 +20,9 @@ class ViewController: NSViewController, HeartRateDelegate {
 	@IBOutlet weak var sdnnLabel: NSTextField!
 	@IBOutlet weak var rmssdLabel: NSTextField!
 	@IBOutlet weak var pnn50Label: NSTextField!
+    
+    @IBOutlet weak var spectrumGraphView: SpectrumGraphView!
+
 
 	var heartRateCenter: HeartRateCenter!
 	var heartRateRRIntervalDatas: [Double]!
@@ -87,7 +90,6 @@ class ViewController: NSViewController, HeartRateDelegate {
 		pnn50Label.stringValue = String(format: "%.2f", pnn50)
 
 		let copiedHeartRateRRIntervalDatas = heartRateRRIntervalDatas
-        
         			
         let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
 		dispatch_async(queue) {
@@ -101,7 +103,7 @@ class ViewController: NSViewController, HeartRateDelegate {
 	}
     
     func showSpectrumGraph(spectrumData:SpectrumData) {
-        
+        spectrumGraphView.setSpectrumData(spectrumData)
     }
 
 	func chooseLoadData() {

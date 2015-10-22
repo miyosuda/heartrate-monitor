@@ -9,11 +9,34 @@
 import Foundation
 
 struct SpectrumPoint {
-    var frequency : Double
-    var psd : Double
+	var frequency: Double
+	var psd: Double
 }
 
 struct SpectrumData {
-    var points : [SpectrumPoint]
+	var points: [SpectrumPoint]
+
+	var pointCount: Int {
+		get {
+			return points.count
+		}
+	}
+
+	var maxPsd: Double {
+		get {
+			var maxPsd = 0.0
+
+			for point in points {
+				if point.psd > maxPsd {
+					maxPsd = point.psd
+				}
+			}
+			return maxPsd
+		}
+	}
+
+	var maxFreq: Double {
+		return points[points.count - 1].frequency
+	}
 }
 
