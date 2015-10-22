@@ -87,10 +87,22 @@ class ViewController: NSViewController, HeartRateDelegate {
 		pnn50Label.stringValue = String(format: "%.2f", pnn50)
 
 		let copiedHeartRateRRIntervalDatas = heartRateRRIntervalDatas
-		dispatch_async(dispatch_get_main_queue()) {
-			SpectrumAnalyzer.process(copiedHeartRateRRIntervalDatas)
+        
+        			
+        let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+		dispatch_async(queue) {
+			let spectrumData = SpectrumAnalyzer.process(copiedHeartRateRRIntervalDatas)
+            if( spectrumData != nil ) {
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.showSpectrumGraph(spectrumData!)
+                }
+            }
 		}
 	}
+    
+    func showSpectrumGraph(spectrumData:SpectrumData) {
+        
+    }
 
 	func chooseLoadData() {
 		let panel = NSOpenPanel()
