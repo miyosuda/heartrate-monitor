@@ -17,56 +17,75 @@ class SpectrumGraphView: NSView {
 		needsDisplay = true
 	}
 
+    private func drawHorizontalGridValue(value: Double, x:Double, y:Double) {
+        let style = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
+        style.alignment = NSTextAlignment.Center
+        let attr = [
+            NSParagraphStyleAttributeName: style,
+        ]
+        let str = NSString(string: String(format: "%.1f", value))
+        str.drawInRect(CGRectMake(CGFloat(x-20.0), CGFloat(y-20), 40.0, 40.0), withAttributes: attr)
+	}
+
 	private func drawGrid() {
 		let pointCount = spectrumData.pointCount
 		let maxPsd = spectrumData.maxPsd
 		let maxFreq = spectrumData.maxFreq
-        
-        let width = Double(frame.width)
-        let height = Double(frame.height)
+
+		let marginX = 20.0
+		let marginY = 20.0
+
+		let width = Double(frame.width) - 2.0 * marginX
+		let height = Double(frame.height) - 2.0 * marginY
 
 		let gridColor = NSColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1.0)
 		gridColor.set()
 
 		let scaleX = width / maxFreq
-        let scaleY = height / maxPsd
-
-		for (var x = 0.0; x <= maxFreq; x += 0.05) {
+		let scaleY = height / maxPsd
+        
+        var count = 0;
+		for (var x = 0.0; x <= maxFreq + 0.01; x += 0.05) {
 			// vertical line
 			let path: NSBezierPath = NSBezierPath()
-            path.lineWidth = 0.2
-			let px: Double = x * scaleX
-			path.moveToPoint(NSPoint(x: px, y: 0.0))
-			path.lineToPoint(NSPoint(x: px, y: height))
+			path.lineWidth = 0.2
+			let px: Double = x * scaleX + marginX
+			path.moveToPoint(NSPoint(x: px, y: marginY))
+			path.lineToPoint(NSPoint(x: px, y: marginY + height))
+			path.stroke()
+            
+            if( count % 2 == 0 ) {
+                drawHorizontalGridValue(x, x: px, y: -5.0)
+            }
+            count++
+		}
+
+		for (var y = 0.0; y <= maxPsd; y += 10.0) {
+			// horizontal line
+			let path: NSBezierPath = NSBezierPath()
+			path.lineWidth = 0.2
+			let py: Double = y * scaleY + marginY
+			path.moveToPoint(NSPoint(x: marginX, y: py))
+			path.lineToPoint(NSPoint(x: marginX + width, y: py))
 			path.stroke()
 		}
-        
-        for (var y = 0.0; y <= maxPsd; y += 10.0) {
-            // horizontal line
-            let path: NSBezierPath = NSBezierPath()
-            path.lineWidth = 0.2
-            let py: Double = y * scaleY
-            path.moveToPoint(NSPoint(x: 0.0, y: py))
-            path.lineToPoint(NSPoint(x: width, y: py))
-            path.stroke()
-        }
-        
-        let lineColor = NSColor(red: 0.0, green: 0.0, blue: 1.0, alpha: 1.0)
-        lineColor.set()
-        
-        var px = spectrumData.points[0].frequency * scaleX
-        var py = spectrumData.points[0].psd * scaleY
-        
-        let path: NSBezierPath = NSBezierPath()
-        path.lineWidth = 0.3
-        path.moveToPoint(NSPoint(x: px, y: py))
-        
-        for var i=1; i<pointCount; ++i {
-            px = spectrumData.points[i].frequency * scaleX
-            py = spectrumData.points[i].psd * scaleY
-            path.lineToPoint(NSPoint(x: px, y: py))
-            path.stroke()
-        }
+
+		let lineColor = NSColor(red: 0.0, green: 0.0, blue: 1.0, alpha: 1.0)
+		lineColor.set()
+
+		var px = spectrumData.points[0].frequency * scaleX + marginX
+		var py = spectrumData.points[0].psd * scaleY + marginY
+
+		let path: NSBezierPath = NSBezierPath()
+		path.lineWidth = 0.3
+		path.moveToPoint(NSPoint(x: px, y: py))
+
+		for var i = 1; i < pointCount; ++i {
+			px = spectrumData.points[i].frequency * scaleX + marginX
+			py = spectrumData.points[i].psd * scaleY + marginY
+			path.lineToPoint(NSPoint(x: px, y: py))
+			path.stroke()
+		}
 	}
 
 	override func drawRect(rect: CGRect) {
