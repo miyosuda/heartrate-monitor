@@ -318,7 +318,7 @@
                                 </buttonCell>
                             </button>
                             <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mxD-fd-NR7" customClass="SpectrumGraphView" customModule="heartrate_monitor" customModuleProvider="target">
-                                <rect key="frame" x="71" y="31" width="520" height="350"/>
+                                <rect key="frame" x="49" y="31" width="600" height="350"/>
                             </customView>
                         </subviews>
                     </view>

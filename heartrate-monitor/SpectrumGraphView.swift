@@ -25,11 +25,23 @@ class SpectrumGraphView: NSView {
 		str.drawInRect(CGRectMake(CGFloat(x - 20.0), CGFloat(y - 20), 40.0, 40.0), withAttributes: attr)
 	}
 
-	private func drawString(str: String, x: Double, y: Double) {
+	private func drawHorizontalString(str: String, x: Double, y: Double) {
 		let style = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
 		style.alignment = NSTextAlignment.Center
 		let attr = [NSParagraphStyleAttributeName: style]
 		str.drawInRect(CGRectMake(CGFloat(x - 50.0), CGFloat(y - 20), 100.0, 40.0), withAttributes: attr)
+	}
+
+	private func drawVerticalGridValue(value: Double, x: Double, y: Double) {
+		let str = NSString(string: String(format: "%.0f", value))
+		drawVerticalString(String(str), x: x, y: y)
+	}
+
+	private func drawVerticalString(str: String, x: Double, y: Double) {
+		let style = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
+		style.alignment = NSTextAlignment.Right
+		let attr = [NSParagraphStyleAttributeName: style]
+		str.drawInRect(CGRectMake(CGFloat(x - 100.0), CGFloat(y) - 8, 100.0, 16.0), withAttributes: attr)
 	}
 
 	private func drawGrid() {
@@ -37,8 +49,8 @@ class SpectrumGraphView: NSView {
 		let maxPsd = spectrumData.maxPsd
 		let maxFreq = spectrumData.maxFreq
 
-		let marginX = 35.0
-		let marginY = 35.0
+		let marginX = 40.0
+		let marginY = 40.0
 
 		let width = Double(frame.width) - 2.0 * marginX
 		let height = Double(frame.height) - 2.0 * marginY
@@ -49,6 +61,7 @@ class SpectrumGraphView: NSView {
 		let scaleX = width / maxFreq
 		let scaleY = height / maxPsd
 
+		// X axis
 		var count = 0;
 		for (var x = 0.0; x <= maxFreq + 0.01; x += 0.05) {
 			// vertical line
@@ -65,8 +78,11 @@ class SpectrumGraphView: NSView {
 			count++
 		}
 
-		drawString("Frequency (Hz)", x: marginX + width * 0.5, y: -5.0)
+		// label
+		drawHorizontalString("Frequency (Hz)", x: marginX + width * 0.5, y: -5.0)
 
+		// Y axis
+		count = 0
 		for (var y = 0.0; y <= maxPsd; y += 10.0) {
 			// horizontal line
 			let path: NSBezierPath = NSBezierPath()
@@ -75,6 +91,11 @@ class SpectrumGraphView: NSView {
 			path.moveToPoint(NSPoint(x: marginX, y: py))
 			path.lineToPoint(NSPoint(x: marginX + width, y: py))
 			path.stroke()
+
+			if (count % 2 == 0) {
+				drawVerticalGridValue(y, x: 30, y: py)
+			}
+			count++
 		}
 
 		let lineColor = NSColor(red: 0.0, green: 0.0, blue: 1.0, alpha: 1.0)
@@ -93,6 +114,9 @@ class SpectrumGraphView: NSView {
 			path.lineToPoint(NSPoint(x: px, y: py))
 			path.stroke()
 		}
+
+		// label
+		drawVerticalString("psd", x: 20, y: marginY + height * 0.5)
 	}
 
 	override func drawRect(rect: CGRect) {
