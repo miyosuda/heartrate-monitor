@@ -17,14 +17,19 @@ class SpectrumGraphView: NSView {
 		needsDisplay = true
 	}
 
-    private func drawHorizontalGridValue(value: Double, x:Double, y:Double) {
-        let style = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
-        style.alignment = NSTextAlignment.Center
-        let attr = [
-            NSParagraphStyleAttributeName: style,
-        ]
-        let str = NSString(string: String(format: "%.1f", value))
-        str.drawInRect(CGRectMake(CGFloat(x-20.0), CGFloat(y-20), 40.0, 40.0), withAttributes: attr)
+	private func drawHorizontalGridValue(value: Double, x: Double, y: Double) {
+		let style = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
+		style.alignment = NSTextAlignment.Center
+		let attr = [NSParagraphStyleAttributeName: style]
+		let str = NSString(string: String(format: "%.1f", value))
+		str.drawInRect(CGRectMake(CGFloat(x - 20.0), CGFloat(y - 20), 40.0, 40.0), withAttributes: attr)
+	}
+
+	private func drawString(str: String, x: Double, y: Double) {
+		let style = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
+		style.alignment = NSTextAlignment.Center
+		let attr = [NSParagraphStyleAttributeName: style]
+		str.drawInRect(CGRectMake(CGFloat(x - 50.0), CGFloat(y - 20), 100.0, 40.0), withAttributes: attr)
 	}
 
 	private func drawGrid() {
@@ -32,8 +37,8 @@ class SpectrumGraphView: NSView {
 		let maxPsd = spectrumData.maxPsd
 		let maxFreq = spectrumData.maxFreq
 
-		let marginX = 20.0
-		let marginY = 20.0
+		let marginX = 35.0
+		let marginY = 35.0
 
 		let width = Double(frame.width) - 2.0 * marginX
 		let height = Double(frame.height) - 2.0 * marginY
@@ -43,8 +48,8 @@ class SpectrumGraphView: NSView {
 
 		let scaleX = width / maxFreq
 		let scaleY = height / maxPsd
-        
-        var count = 0;
+
+		var count = 0;
 		for (var x = 0.0; x <= maxFreq + 0.01; x += 0.05) {
 			// vertical line
 			let path: NSBezierPath = NSBezierPath()
@@ -53,12 +58,14 @@ class SpectrumGraphView: NSView {
 			path.moveToPoint(NSPoint(x: px, y: marginY))
 			path.lineToPoint(NSPoint(x: px, y: marginY + height))
 			path.stroke()
-            
-            if( count % 2 == 0 ) {
-                drawHorizontalGridValue(x, x: px, y: -5.0)
-            }
-            count++
+
+			if (count % 2 == 0) {
+				drawHorizontalGridValue(x, x: px, y: 10.0)
+			}
+			count++
 		}
+
+		drawString("Frequency (Hz)", x: marginX + width * 0.5, y: -5.0)
 
 		for (var y = 0.0; y <= maxPsd; y += 10.0) {
 			// horizontal line
