@@ -9,7 +9,8 @@
 import Cocoa
 
 class ViewController: NSViewController, HeartRateDelegate {
-	@IBOutlet weak var startButton: NSButtonCell!
+	@IBOutlet weak var startButton: NSButton!
+	@IBOutlet weak var loadButton: NSButton!
 
 	@IBOutlet weak var stateLabel: NSTextField!
 	@IBOutlet weak var heartRateRRCountLabel: NSTextField!
@@ -20,8 +21,8 @@ class ViewController: NSViewController, HeartRateDelegate {
 	@IBOutlet weak var sdnnLabel: NSTextField!
 	@IBOutlet weak var rmssdLabel: NSTextField!
 	@IBOutlet weak var pnn50Label: NSTextField!
-    
-    @IBOutlet weak var spectrumGraphView: SpectrumGraphView!
+
+	@IBOutlet weak var spectrumGraphView: SpectrumGraphView!
 
 
 	var heartRateCenter: HeartRateCenter!
@@ -33,6 +34,12 @@ class ViewController: NSViewController, HeartRateDelegate {
 		super.viewDidLoad()
 
 		stateLabel.stringValue = "init"
+	}
+
+	override func viewDidAppear() {
+		super.viewDidAppear()
+
+		view.window!.title = "Heart rate monitor"
 	}
 
 	override func viewWillDisappear() {
@@ -61,10 +68,13 @@ class ViewController: NSViewController, HeartRateDelegate {
 			duration = 0.0
 
 			startButton.title = "Stop"
+			loadButton.hidden = true
+
 		} else {
 			heartRateCenter.cleanup()
 			heartRateCenter = nil
 			startButton.title = "Start"
+			loadButton.hidden = false
 
 			stateLabel.stringValue = "init"
 
@@ -90,21 +100,21 @@ class ViewController: NSViewController, HeartRateDelegate {
 		pnn50Label.stringValue = String(format: "%.2f", pnn50)
 
 		let copiedHeartRateRRIntervalDatas = heartRateRRIntervalDatas
-        			
-        let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+
+		let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
 		dispatch_async(queue) {
 			let spectrumData = SpectrumAnalyzer.process(copiedHeartRateRRIntervalDatas)
-            if( spectrumData != nil ) {
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.showSpectrumGraph(spectrumData!)
-                }
-            }
+			if (spectrumData != nil) {
+				dispatch_async(dispatch_get_main_queue()) {
+					self.showSpectrumGraph(spectrumData!)
+				}
+			}
 		}
 	}
-    
-    func showSpectrumGraph(spectrumData:SpectrumData) {
-        spectrumGraphView.setSpectrumData(spectrumData)
-    }
+
+	func showSpectrumGraph(spectrumData: SpectrumData) {
+		spectrumGraphView.setSpectrumData(spectrumData)
+	}
 
 	func chooseLoadData() {
 		let panel = NSOpenPanel()

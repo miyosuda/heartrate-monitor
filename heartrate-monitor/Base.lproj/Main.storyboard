@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="14F1021" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9059"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9060"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -327,11 +327,12 @@
                         <outlet property="durationLabel" destination="iPZ-5k-lgd" id="lwo-JH-8e3"/>
                         <outlet property="heartRateRRCountLabel" destination="30u-af-0fE" id="0X8-AT-Nfu"/>
                         <outlet property="heartRateValueLabel" destination="rEj-Rg-w51" id="cF8-ko-YUS"/>
+                        <outlet property="loadButton" destination="Yxd-Uc-Abx" id="7SM-eg-4wZ"/>
                         <outlet property="pnn50Label" destination="9ng-Rh-8Pf" id="rqk-Rs-zNr"/>
                         <outlet property="rmssdLabel" destination="ZGQ-BH-hU4" id="5nR-UJ-qwy"/>
                         <outlet property="sdnnLabel" destination="uu7-Iw-VCz" id="SD9-If-4ci"/>
                         <outlet property="spectrumGraphView" destination="mxD-fd-NR7" id="rhZ-dv-X8T"/>
-                        <outlet property="startButton" destination="hl1-5W-2kB" id="R6x-zz-Ek5"/>
+                        <outlet property="startButton" destination="DdR-4r-s4G" id="BhE-Xa-gb8"/>
                         <outlet property="stateLabel" destination="o9N-be-yu8" id="JfY-cC-F5g"/>
                     </connections>
                 </viewController>
