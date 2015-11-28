@@ -48,7 +48,7 @@ class BreathView: NSView {
 	}
 
 	func start() {
-		startDate = NSDate() // ゲーム開始時の時刻を取得
+		startDate = NSDate()
 
 		timer = NSTimer.scheduledTimerWithTimeInterval(UPDATE_INTERVAL_SEC,
 				target: self,

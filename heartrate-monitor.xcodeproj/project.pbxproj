@@ -93,17 +93,12 @@
 		47428AAA1B4619C40070280A /* heartrate-monitor */ = {
 			isa = PBXGroup;
 			children = (
-				47428ACE1B46267E0070280A /* HeartRateDelegate.swift */,
-				47428ACA1B461A480070280A /* HeartRateCenter.swift */,
-				47428ACB1B461A480070280A /* HeratRatePeripheral.swift */,
 				47428AAD1B4619C40070280A /* AppDelegate.swift */,
-				47428AAF1B4619C40070280A /* ViewController.swift */,
-				47EF81361BD41396004FDFDA /* HRVUtils.swift */,
-				478FAE101BD6A3E40077CC70 /* SpectrumAnalyzer.swift */,
-				47EF81381BD553C8004FDFDA /* SampleInterpolator.swift */,
-				47896C651BD946AE004CC7AA /* SpectrumData.swift */,
-				401169245D3E2D5FA0C53806 /* SpectrumGraphView.swift */,
-				47ED13C31C09C64400D7B640 /* BreathView.swift */,
+				47C242481C0A59A30054B4E6 /* BLE */,
+				47C2424C1C0A59E20054B4E6 /* Models */,
+				47C2424A1C0A59C90054B4E6 /* Views */,
+				47C242491C0A59B30054B4E6 /* Controllers */,
+				47C2424B1C0A59D60054B4E6 /* Utilities */,
 				47428AB31B4619C40070280A /* Main.storyboard */,
 				47428AB11B4619C40070280A /* Images.xcassets */,
 				47428AAB1B4619C40070280A /* Supporting Files */,
@@ -134,6 +129,51 @@
 				47428ABF1B4619C50070280A /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		47C242481C0A59A30054B4E6 /* BLE */ = {
+			isa = PBXGroup;
+			children = (
+				47428ACE1B46267E0070280A /* HeartRateDelegate.swift */,
+				47428ACA1B461A480070280A /* HeartRateCenter.swift */,
+				47428ACB1B461A480070280A /* HeratRatePeripheral.swift */,
+			);
+			name = BLE;
+			sourceTree = "<group>";
+		};
+		47C242491C0A59B30054B4E6 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				47428AAF1B4619C40070280A /* ViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		47C2424A1C0A59C90054B4E6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				401169245D3E2D5FA0C53806 /* SpectrumGraphView.swift */,
+				47ED13C31C09C64400D7B640 /* BreathView.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		47C2424B1C0A59D60054B4E6 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				47EF81361BD41396004FDFDA /* HRVUtils.swift */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		47C2424C1C0A59E20054B4E6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				478FAE101BD6A3E40077CC70 /* SpectrumAnalyzer.swift */,
+				47EF81381BD553C8004FDFDA /* SampleInterpolator.swift */,
+				47896C651BD946AE004CC7AA /* SpectrumData.swift */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
