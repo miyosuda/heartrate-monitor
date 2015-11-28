@@ -179,6 +179,16 @@
                                     </connections>
                                 </buttonCell>
                             </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Yxd-Uc-Abx">
+                                <rect key="frame" x="69" y="411" width="92" height="29"/>
+                                <buttonCell key="cell" type="bevel" title="Load" bezelStyle="regularSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="qJP-Wo-Rtb">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <connections>
+                                        <action selector="onLoadButtonPushed:" target="XfG-lQ-9wD" id="5b2-q3-HBA"/>
+                                    </connections>
+                                </buttonCell>
+                            </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o9N-be-yu8">
                                 <rect key="frame" x="271" y="458" width="100" height="17"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="state" id="Znd-Ly-QFq">
@@ -307,23 +317,29 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Yxd-Uc-Abx">
-                                <rect key="frame" x="69" y="411" width="92" height="29"/>
-                                <buttonCell key="cell" type="bevel" title="Load" bezelStyle="regularSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="qJP-Wo-Rtb">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                    <connections>
-                                        <action selector="onLoadButtonPushed:" target="XfG-lQ-9wD" id="5b2-q3-HBA"/>
-                                    </connections>
-                                </buttonCell>
-                            </button>
                             <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mxD-fd-NR7" customClass="SpectrumGraphView" customModule="heartrate_monitor" customModuleProvider="target">
                                 <rect key="frame" x="49" y="31" width="600" height="350"/>
+                                <subviews>
+                                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N1x-Ck-vth" customClass="BreathView" customModule="heartrate_monitor" customModuleProvider="target">
+                                        <rect key="frame" x="273" y="46" width="55" height="259"/>
+                                        <subviews>
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xxj-Oa-O1T">
+                                                <rect key="frame" x="5" y="7" width="44" height="17"/>
+                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="breath" id="yq4-9i-nHG">
+                                                    <font key="font" metaFont="system"/>
+                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                        </subviews>
+                                    </customView>
+                                </subviews>
                             </customView>
                         </subviews>
                     </view>
                     <connections>
                         <outlet property="avnnLabel" destination="P5l-bN-ILY" id="qbM-PT-nWP"/>
+                        <outlet property="breathView" destination="N1x-Ck-vth" id="GeA-eK-ZqV"/>
                         <outlet property="durationLabel" destination="iPZ-5k-lgd" id="lwo-JH-8e3"/>
                         <outlet property="heartRateRRCountLabel" destination="30u-af-0fE" id="0X8-AT-Nfu"/>
                         <outlet property="heartRateValueLabel" destination="rEj-Rg-w51" id="cF8-ko-YUS"/>
@@ -338,7 +354,7 @@
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="185.5" y="767.5"/>
+            <point key="canvasLocation" x="179.5" y="698.5"/>
         </scene>
     </scenes>
 </document>

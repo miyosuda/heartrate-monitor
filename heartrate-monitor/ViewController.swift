@@ -24,6 +24,7 @@ class ViewController: NSViewController, HeartRateDelegate {
 
 	@IBOutlet weak var spectrumGraphView: SpectrumGraphView!
 
+    @IBOutlet weak var breathView: BreathView!
 
 	var heartRateCenter: HeartRateCenter!
 	var heartRateRRIntervalDatas: [Double]!
@@ -40,6 +41,8 @@ class ViewController: NSViewController, HeartRateDelegate {
 		super.viewDidAppear()
 
 		view.window!.title = "Heart rate monitor"
+
+		breathView.prepare()
 	}
 
 	override func viewWillDisappear() {
@@ -58,6 +61,8 @@ class ViewController: NSViewController, HeartRateDelegate {
 
 	@IBAction func onStartButtonPushed(sender: AnyObject) {
 		if (heartRateCenter == nil) {
+			breathView.start()
+
 			heartRateCenter = HeartRateCenter(delegate: self)
 			heartRateCenter.setup()
 
@@ -71,6 +76,8 @@ class ViewController: NSViewController, HeartRateDelegate {
 			loadButton.hidden = true
 
 		} else {
+			breathView.stop()
+
 			heartRateCenter.cleanup()
 			heartRateCenter = nil
 			startButton.title = "Start"
