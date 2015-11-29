@@ -22,6 +22,10 @@ class ViewController: NSViewController, HeartRateDelegate {
 	@IBOutlet weak var rmssdLabel: NSTextField!
 	@IBOutlet weak var pnn50Label: NSTextField!
 
+    @IBOutlet weak var lfLabel: NSTextField!
+    @IBOutlet weak var hfLabel: NSTextField!
+    @IBOutlet weak var lfhfLabel: NSTextField!
+    
 	@IBOutlet weak var spectrumGraphView: SpectrumGraphView!
 
     @IBOutlet weak var breathView: BreathView!
@@ -114,6 +118,13 @@ class ViewController: NSViewController, HeartRateDelegate {
 			if (spectrumData != nil) {
 				dispatch_async(dispatch_get_main_queue()) {
 					self.showSpectrumGraph(spectrumData!)
+
+                    let lf = spectrumData!.lf
+                    let hf = spectrumData!.hf
+                    let lfhf = lf/hf
+                    self.lfLabel.stringValue = String(format: "%.3f", lf)
+                    self.hfLabel.stringValue = String(format: "%.3f", hf)
+                    self.lfhfLabel.stringValue = String(format: "%.3f", lfhf)
 				}
 			}
 		}

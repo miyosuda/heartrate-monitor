@@ -67,11 +67,11 @@ class SpectrumGraphView: NSView {
 		lowFreqColor.set()
 
 		for var i = 0; i < pointCount - 1; ++i {
-			if spectrumData.points[i].frequency < 0.04 {
+			if spectrumData.points[i].frequency < Constants.MIN_LF {
 				continue
-			} else if spectrumData.points[i + 1].frequency > 0.4 {
+			} else if spectrumData.points[i + 1].frequency > Constants.MAX_HF {
 				continue
-			} else if spectrumData.points[i + 1].frequency > 0.15 {
+			} else if spectrumData.points[i + 1].frequency > Constants.MIN_HF {
 				highFreqColor.set()
 			} else {
 				lowFreqColor.set()
@@ -127,6 +127,9 @@ class SpectrumGraphView: NSView {
 			}
 			count++
 		}
+        
+        // Y Label
+        drawVerticalString("psd", x: 20, y: marginY + height * 0.5)
 
 		// Spectrum Graph line
 		let lineColor = NSColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
@@ -145,9 +148,6 @@ class SpectrumGraphView: NSView {
 			path.lineToPoint(NSPoint(x: px, y: py))
 			path.stroke()
 		}
-
-		// Y Label
-		drawVerticalString("psd", x: 20, y: marginY + height * 0.5)
 	}
 
 	override func drawRect(rect: CGRect) {

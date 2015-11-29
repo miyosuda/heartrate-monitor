@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4729A6D31C0AB1E600D1C9CB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4729A6D21C0AB1E600D1C9CB /* Constants.swift */; };
 		47428AAE1B4619C40070280A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47428AAD1B4619C40070280A /* AppDelegate.swift */; };
 		47428AB01B4619C40070280A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47428AAF1B4619C40070280A /* ViewController.swift */; };
 		47428AB21B4619C40070280A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47428AB11B4619C40070280A /* Images.xcassets */; };
@@ -35,6 +36,7 @@
 
 /* Begin PBXFileReference section */
 		401169245D3E2D5FA0C53806 /* SpectrumGraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpectrumGraphView.swift; sourceTree = "<group>"; };
+		4729A6D21C0AB1E600D1C9CB /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		47428AA81B4619C40070280A /* heartrate-monitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "heartrate-monitor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		47428AAC1B4619C40070280A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		47428AAD1B4619C40070280A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 		47C2424B1C0A59D60054B4E6 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				4729A6D21C0AB1E600D1C9CB /* Constants.swift */,
 				47EF81361BD41396004FDFDA /* HRVUtils.swift */,
 			);
 			name = Utilities;
@@ -287,6 +290,7 @@
 				47428ACF1B46267E0070280A /* HeartRateDelegate.swift in Sources */,
 				4747B9031C09A3B7000D41D4 /* SpectrumGraphView.swift in Sources */,
 				47428AAE1B4619C40070280A /* AppDelegate.swift in Sources */,
+				4729A6D31C0AB1E600D1C9CB /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
