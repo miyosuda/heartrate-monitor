@@ -6,13 +6,15 @@ Heart rate variavirity (HRV) anaysis tool with Polar H7/H6 on MacOSX.
 
 You can analyze your heart rate variavirity to detect autonomic nerve state, with calculating
 
-- AVNN
-- SDNN
-- rMSSD
-- pNN50
-- LF
-- HF
-- LF/HF
+| Parameter | Description                                                                         |
+|-----------|-------------------------------------------------------------------------------------|
+| AVNN      | Average of all RR intervals                                                         |
+| SDNN      | Standard deviation of all RR intervals                                              |
+| rMSSD     | Square root of the mean of the squares of differences between adjacent RR intervals |
+| pNN50     | Percentage of differences between adjacent RR intervals that are greater than 50 ms |
+| LF        | Total spectral power of all RR intervals between 0.04 and 0.15 Hz                   |
+| HF        | Total spectral power of all RR intervals between 0.15 and 0.4 Hz                    |
+| LF/HF     | Ratio of low to high frequency power                                                |
 
 Power spectrum of HRV is calculated with Auto Regressive (AR) method.
 
