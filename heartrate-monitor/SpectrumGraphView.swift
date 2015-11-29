@@ -60,8 +60,38 @@ class SpectrumGraphView: NSView {
 
 		let scaleX = width / maxFreq
 		let scaleY = height / maxPsd
+        
+        // Fill Spectrum LF/HF part
+		let lowFreqColor = NSColor(red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0)
+		let highFreqColor = NSColor(red: 0.0, green: 0.0, blue: 1.0, alpha: 1.0)
+		lowFreqColor.set()
 
-		// X axis
+		for var i = 0; i < pointCount - 1; ++i {
+			if spectrumData.points[i].frequency < 0.04 {
+				continue
+			} else if spectrumData.points[i + 1].frequency > 0.4 {
+				continue
+			} else if spectrumData.points[i + 1].frequency > 0.15 {
+				highFreqColor.set()
+			} else {
+				lowFreqColor.set()
+			}
+
+			let px0 = spectrumData.points[i].frequency * scaleX + marginX
+			let py0 = spectrumData.points[i].psd * scaleY + marginY
+
+			let px1 = spectrumData.points[i + 1].frequency * scaleX + marginX
+			let py1 = spectrumData.points[i + 1].psd * scaleY + marginY
+
+			let path: NSBezierPath = NSBezierPath()
+			path.moveToPoint(NSPoint(x: px0, y: py0))
+			path.lineToPoint(NSPoint(x: px1, y: py1))
+			path.lineToPoint(NSPoint(x: px1, y: marginY))
+			path.lineToPoint(NSPoint(x: px0, y: marginY))
+			path.fill()
+        }
+
+		// Grid X axis
 		var count = 0;
 		for (var x = 0.0; x <= maxFreq + 0.01; x += 0.05) {
 			// vertical line
@@ -78,10 +108,10 @@ class SpectrumGraphView: NSView {
 			count++
 		}
 
-		// label
+		// Grid X Label
 		drawHorizontalString("Frequency (Hz)", x: marginX + width * 0.5, y: -5.0)
 
-		// Y axis
+		// Grid Y axis
 		count = 0
 		for (var y = 0.0; y <= maxPsd; y += 10.0) {
 			// horizontal line
@@ -98,7 +128,8 @@ class SpectrumGraphView: NSView {
 			count++
 		}
 
-		let lineColor = NSColor(red: 0.0, green: 0.0, blue: 1.0, alpha: 1.0)
+		// Spectrum Graph line
+		let lineColor = NSColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
 		lineColor.set()
 
 		var px = spectrumData.points[0].frequency * scaleX + marginX
@@ -115,7 +146,7 @@ class SpectrumGraphView: NSView {
 			path.stroke()
 		}
 
-		// label
+		// Y Label
 		drawVerticalString("psd", x: 20, y: marginY + height * 0.5)
 	}
 
