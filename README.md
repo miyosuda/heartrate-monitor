@@ -1,6 +1,6 @@
 # heartrate-monitor
 
-Heart rate variavirity (HRV) anaysis tool with Polar H7/H6 on MacOSX.
+Heart rate variabirity (HRV) analysis tool with Polar H7/H6 on MacOSX.
 
 ![image](http://narr.jp/private/miyoshi/heartrate_monitor/hrv_screen1.png)
 
