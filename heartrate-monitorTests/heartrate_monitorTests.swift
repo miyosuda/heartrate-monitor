@@ -10,27 +10,57 @@ import Cocoa
 import XCTest
 
 class heartrate_monitorTests: XCTestCase {
+
+	override func setUp() {
+		super.setUp()
+	}
+
+	override func tearDown() {
+		super.tearDown()
+	}
+
+	func testSampleInterpolation() {
+		XCTAssert(true, "Pass")
+
+		var rawIntervals: [Double] = [Double]()
+		rawIntervals.append(100.0)
+		rawIntervals.append(200.0)
+		rawIntervals.append(100.0)
+		rawIntervals.append(200.0)
+
+		var resampledIntervals = SampleInterpolator.process(rawIntervals)
+
+		XCTAssert(resampledIntervals != nil, "resampled intervals was nil")
+
+		XCTAssert(resampledIntervals!.count == 3, "resampled count not match")
+
+		XCTAssert(resampledIntervals![0] == 100.0, "resample failed")
+		XCTAssert(resampledIntervals![1] == 150.0, "resample failed")
+		XCTAssert(resampledIntervals![2] == 200.0, "resample failed")
+	}
     
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-    
-    func testExample() {
-        // This is an example of a functional test case.
+    func testSampleInterpolation2() {
         XCTAssert(true, "Pass")
+        
+        var rawIntervals: [Double] = [Double]()
+        rawIntervals.append(100.0)
+        rawIntervals.append(100.0)
+        rawIntervals.append(200.0)
+        rawIntervals.append(200.0)
+        
+        var resampledIntervals = SampleInterpolator.process(rawIntervals)
+        
+        XCTAssert(resampledIntervals != nil, "resampled intervals was nil")
+        
+        XCTAssert(resampledIntervals!.count == 3, "resampled count not match")
+        
+        XCTAssert(resampledIntervals![0] == 100.0, "resample failed")
+        XCTAssert(resampledIntervals![1] == 175.0, "resample failed")
+        XCTAssert(resampledIntervals![2] == 200.0, "resample failed")
     }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock() {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
+
+	//func testPerformanceExample() {
+	//	self.measureBlock() {
+	//	}
+	//}
 }

@@ -205,11 +205,12 @@ class SpectrumAnalyzer {
 	static func calcSpectrum(coeffs: [Double], length: Int) -> SpectrumData {
 		let degree = coeffs.count
 		let spectrumLength = length / 2 + 1
-        
-        var points = [SpectrumPoint]()
+
+		var points = [SpectrumPoint]()
 
 		for var j = 0; j < spectrumLength; j++ {
-			let theta = 2.0 * M_PI * Double(j) / Double(length)
+			let frequency = Double(j) * (1000.0 / Constants.RESMPLE_INTERAL_MS) / Double(length)
+			let theta = 2.0 * M_PI * frequency
 
 			var rv = 1.0;
 			var iv = 0.0;
@@ -220,19 +221,17 @@ class SpectrumAnalyzer {
 				rv -= c * cos(t)
 				iv -= c * sin(t)
 			}
-            
-            let frequency = Double(j) * 1.0 / Double(length)
-			let psd = 1.0 / (rv * rv + iv * iv)
 
-            points.append(SpectrumPoint(frequency:frequency, psd:psd))
+			let psd = 1.0 / (rv * rv + iv * iv)
+			points.append(SpectrumPoint(frequency: frequency, psd: psd))
 		}
-        
-        let spectrumData = SpectrumData(points:points)
-        return spectrumData
+
+		let spectrumData = SpectrumData(points: points)
+		return spectrumData
 	}
 
 	static func process(intervals: [Double]) -> SpectrumData? {
-		// resample intervals with 1 sec span
+		// Resample intervals with Const.RESMPLE_INTERAL_MS millisec interval.
 		let resampledIntervals = SampleInterpolator.process(intervals)
 		if resampledIntervals == nil {
 			return nil
@@ -270,8 +269,8 @@ class SpectrumAnalyzer {
 
 		if maxDegree != -1 {
 			return calcSpectrum(bestCoeffcients!, length: resampledIntervals!.count)
-        } else {
-            return nil
-        }
+		} else {
+			return nil
+		}
 	}
 }

@@ -13,7 +13,15 @@ class SpectrumGraphView: NSView {
 	var spectrumData: SpectrumData!
 
 	func setSpectrumData(spectrumData: SpectrumData) {
-		self.spectrumData = spectrumData
+		var trimedPoints = [SpectrumPoint]()
+		for point in spectrumData.points {
+			if point.frequency <= Constants.SPECTRUM_GRAPH_MAX_FREQ {
+				trimedPoints.append(point)
+			}
+		}
+
+		//self.spectrumData = spectrumData
+		self.spectrumData = SpectrumData(points: trimedPoints)
 		needsDisplay = true
 	}
 
@@ -60,8 +68,8 @@ class SpectrumGraphView: NSView {
 
 		let scaleX = width / maxFreq
 		let scaleY = height / maxPsd
-        
-        // Fill Spectrum LF/HF part
+
+		// Fill Spectrum LF/HF part
 		let lowFreqColor = NSColor(red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0)
 		let highFreqColor = NSColor(red: 0.0, green: 0.0, blue: 1.0, alpha: 1.0)
 		lowFreqColor.set()
@@ -89,7 +97,7 @@ class SpectrumGraphView: NSView {
 			path.lineToPoint(NSPoint(x: px1, y: marginY))
 			path.lineToPoint(NSPoint(x: px0, y: marginY))
 			path.fill()
-        }
+		}
 
 		// Grid X axis
 		var count = 0;
@@ -113,7 +121,8 @@ class SpectrumGraphView: NSView {
 
 		// Grid Y axis
 		count = 0
-		for (var y = 0.0; y <= maxPsd; y += 10.0) {
+		//..for (var y = 0.0; y <= maxPsd; y += 10.0) {
+		for (var y = 0.0; y <= maxPsd; y += 1000.0) {
 			// horizontal line
 			let path: NSBezierPath = NSBezierPath()
 			path.lineWidth = 0.2
@@ -127,9 +136,9 @@ class SpectrumGraphView: NSView {
 			}
 			count++
 		}
-        
-        // Y Label
-        drawVerticalString("psd", x: 20, y: marginY + height * 0.5)
+
+		// Y Label
+		drawVerticalString("psd", x: 20, y: marginY + height * 0.5)
 
 		// Spectrum Graph line
 		let lineColor = NSColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)

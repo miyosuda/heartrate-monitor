@@ -38,47 +38,47 @@ struct SpectrumData {
 	var maxFreq: Double {
 		return points[points.count - 1].frequency
 	}
-    
-    // Calc LF (0.04Hz ~ 0.15Hz) power sum
-    var lf: Double {
-        get {
-            if points.count < 2 {
-                return 0.0
-            }
-            
-            let df = points[1].frequency - points[0].frequency
-            var ret:Double = 0.0
-            for point in points {
-                if point.frequency >= Constants.MIN_LF && point.frequency < Constants.MAX_LF {
-                    ret += (point.psd * df)
-                }
-                if point.frequency >= Constants.MAX_LF {
-                    break
-                }
-            }
-            return ret
-        }
-    }
-    
-    // Calc HF (0.15Hz ~ 0.4Hz) power sum
-    var hf: Double {
-        get {
-            if points.count < 2 {
-                return 0.0
-            }
-            
-            let df = points[1].frequency - points[0].frequency
-            var ret:Double = 0.0
-            for point in points {
-                if point.frequency >= Constants.MIN_HF && point.frequency < Constants.MAX_HF {
-                    ret += (point.psd * df)
-                }
-                if point.frequency >= Constants.MAX_HF {
-                    break
-                }
-            }
-            return ret
-        }
-    }
+
+	// Calc LF (0.04Hz ~ 0.15Hz) power sum
+	var lf: Double {
+		get {
+			if points.count < 2 {
+				return 0.0
+			}
+
+			let df = points[1].frequency - points[0].frequency
+			var ret: Double = 0.0
+			for point in points {
+				if point.frequency >= Constants.MIN_LF && point.frequency < Constants.MAX_LF {
+					ret += (point.psd * df)
+				}
+				if point.frequency >= Constants.MAX_LF {
+					break
+				}
+			}
+			return ret
+		}
+	}
+
+	// Calc HF (0.15Hz ~ 0.4Hz) power sum
+	var hf: Double {
+		get {
+			if points.count < 2 {
+				return 0.0
+			}
+
+			let df = points[1].frequency - points[0].frequency
+			var ret: Double = 0.0
+			for point in points {
+				if point.frequency >= Constants.MIN_HF && point.frequency < Constants.MAX_HF {
+					ret += (point.psd * df)
+				}
+				if point.frequency >= Constants.MAX_HF {
+					break
+				}
+			}
+			return ret
+		}
+	}
 }
 
