@@ -50,8 +50,6 @@ class ViewController: NSViewController, HeartRateDelegate {
 	}
 
 	override func viewWillDisappear() {
-		print("viewWillDisappear")
-
 		if heartRateCenter != nil {
 			heartRateCenter.cleanup()
 			heartRateCenter = nil

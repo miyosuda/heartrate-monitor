@@ -10,7 +10,8 @@ import Cocoa
 import XCTest
 
 class heartrate_monitorTests: XCTestCase {
-
+    let epsilon = 0.000001
+    
 	override func setUp() {
 		super.setUp()
 	}
@@ -20,7 +21,7 @@ class heartrate_monitorTests: XCTestCase {
 	}
 
 	func testSampleInterpolation() {
-		XCTAssert(true, "Pass")
+        XCTAssertEqualWithAccuracy(Constants.RESMPLE_INTERAL_MS, 250.0, accuracy:epsilon)
 
 		var rawIntervals: [Double] = [Double]()
 		rawIntervals.append(100.0)
@@ -30,17 +31,17 @@ class heartrate_monitorTests: XCTestCase {
 
 		var resampledIntervals = SampleInterpolator.process(rawIntervals)
 
-		XCTAssert(resampledIntervals != nil, "resampled intervals was nil")
+		XCTAssert(resampledIntervals != nil)
 
-		XCTAssert(resampledIntervals!.count == 3, "resampled count not match")
+		XCTAssert(resampledIntervals!.count == 3)
 
-		XCTAssert(resampledIntervals![0] == 100.0, "resample failed")
-		XCTAssert(resampledIntervals![1] == 150.0, "resample failed")
-		XCTAssert(resampledIntervals![2] == 200.0, "resample failed")
+        XCTAssertEqualWithAccuracy(resampledIntervals![0], 100.0, accuracy: epsilon)
+		XCTAssertEqualWithAccuracy(resampledIntervals![1], 150.0, accuracy: epsilon)
+		XCTAssertEqualWithAccuracy(resampledIntervals![2], 200.0, accuracy: epsilon)
 	}
     
     func testSampleInterpolation2() {
-        XCTAssert(true, "Pass")
+        XCTAssertEqualWithAccuracy(Constants.RESMPLE_INTERAL_MS, 250.0, accuracy:epsilon)
         
         var rawIntervals: [Double] = [Double]()
         rawIntervals.append(100.0)
@@ -49,18 +50,14 @@ class heartrate_monitorTests: XCTestCase {
         rawIntervals.append(200.0)
         
         var resampledIntervals = SampleInterpolator.process(rawIntervals)
-        
-        XCTAssert(resampledIntervals != nil, "resampled intervals was nil")
-        
-        XCTAssert(resampledIntervals!.count == 3, "resampled count not match")
-        
-        XCTAssert(resampledIntervals![0] == 100.0, "resample failed")
-        XCTAssert(resampledIntervals![1] == 175.0, "resample failed")
-        XCTAssert(resampledIntervals![2] == 200.0, "resample failed")
-    }
 
-	//func testPerformanceExample() {
-	//	self.measureBlock() {
-	//	}
-	//}
+        
+        XCTAssert(resampledIntervals != nil)
+        
+        XCTAssert(resampledIntervals!.count == 3)
+        
+        XCTAssertEqualWithAccuracy(resampledIntervals![0], 100.0, accuracy: epsilon)
+        XCTAssertEqualWithAccuracy(resampledIntervals![1], 175.0, accuracy: epsilon)
+        XCTAssertEqualWithAccuracy(resampledIntervals![2], 200.0, accuracy: epsilon)
+    }
 }

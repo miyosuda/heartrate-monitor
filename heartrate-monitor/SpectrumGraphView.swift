@@ -13,6 +13,7 @@ class SpectrumGraphView: NSView {
 	var spectrumData: SpectrumData!
 
 	func setSpectrumData(spectrumData: SpectrumData) {
+		// Trim spectrum data with limit of SPECTRUM_GRAPH_MAX_FREQ
 		var trimedPoints = [SpectrumPoint]()
 		for point in spectrumData.points {
 			if point.frequency <= Constants.SPECTRUM_GRAPH_MAX_FREQ {
@@ -20,7 +21,6 @@ class SpectrumGraphView: NSView {
 			}
 		}
 
-		//self.spectrumData = spectrumData
 		self.spectrumData = SpectrumData(points: trimedPoints)
 		needsDisplay = true
 	}
@@ -41,7 +41,13 @@ class SpectrumGraphView: NSView {
 	}
 
 	private func drawVerticalGridValue(value: Double, x: Double, y: Double) {
-		let str = NSString(string: String(format: "%.0f", value))
+        var str:NSString! = nil
+        if value > 1000.0 {
+            str = NSString(string: String(format: "%.0fK", value/1000.0))
+        } else {
+            str = NSString(string: String(format: "%.0f", value))
+        }
+        
 		drawVerticalString(String(str), x: x, y: y)
 	}
 
@@ -52,12 +58,39 @@ class SpectrumGraphView: NSView {
 		str.drawInRect(CGRectMake(CGFloat(x - 100.0), CGFloat(y) - 8, 100.0, 16.0), withAttributes: attr)
 	}
 
+	private func getGridUnit(maxValue: Double) -> Double {
+		let d = maxValue / 10.0
+
+		var base10 = 1.0
+		var base = base10
+
+		while true {
+			if base10 >= d {
+				base = base10
+				break
+			}
+			let base25 = base10 * 2.5
+			if base25 >= d {
+				base = base25
+				break
+			}
+
+			let base50 = base10 * 5.0
+			if base50 >= d {
+				base = base50
+				break
+			}
+			base10 *= 10.0
+		}
+		return base
+	}
+
 	private func drawGrid() {
 		let pointCount = spectrumData.pointCount
 		let maxPsd = spectrumData.maxPsd
 		let maxFreq = spectrumData.maxFreq
 
-		let marginX = 40.0
+		let marginX = 60.0
 		let marginY = 40.0
 
 		let width = Double(frame.width) - 2.0 * marginX
@@ -121,8 +154,9 @@ class SpectrumGraphView: NSView {
 
 		// Grid Y axis
 		count = 0
-		//..for (var y = 0.0; y <= maxPsd; y += 10.0) {
-		for (var y = 0.0; y <= maxPsd; y += 1000.0) {
+		let gridUnitY = getGridUnit(maxPsd)
+        
+		for (var y = 0.0; y <= maxPsd; y += gridUnitY) {
 			// horizontal line
 			let path: NSBezierPath = NSBezierPath()
 			path.lineWidth = 0.2
@@ -131,14 +165,14 @@ class SpectrumGraphView: NSView {
 			path.lineToPoint(NSPoint(x: marginX + width, y: py))
 			path.stroke()
 
-			if (count % 2 == 0) {
-				drawVerticalGridValue(y, x: 30, y: py)
+			if count % 2 == 0 {
+				drawVerticalGridValue(y, x: 50, y: py)
 			}
 			count++
 		}
 
 		// Y Label
-		drawVerticalString("psd", x: 20, y: marginY + height * 0.5)
+		drawVerticalString("PSD", x: 25, y: marginY + height * 0.5)
 
 		// Spectrum Graph line
 		let lineColor = NSColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)

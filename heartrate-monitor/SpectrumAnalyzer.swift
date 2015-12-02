@@ -107,7 +107,10 @@ class SpectrumAnalyzer {
 		}
 	}
 
-	static func calcAutoRegressionCoeffs(rawInputSeries: [Double], degree: Int, inout aic: Double) -> [Double]? {
+	static func calcAutoRegressionCoeffs(rawInputSeries: [Double],
+										 degree: Int,
+										 inout aic: Double,
+										 inout sigma2: Double) -> [Double]? {
 		let length = rawInputSeries.count
 		var inputSeries: [Double] = [Double](count: length, repeatedValue: 0.0)
 
@@ -128,7 +131,7 @@ class SpectrumAnalyzer {
 			return nil
 		}
 
-		let sigma2 = calcSigma2(inputSeries, coefficients: coefficients)
+		sigma2 = calcSigma2(inputSeries, coefficients: coefficients)
 		aic = calcAIC(sigma2, length: length, degree: degree)
 
 		return coefficients
@@ -202,28 +205,29 @@ class SpectrumAnalyzer {
 		return aic
 	}
 
-	static func calcSpectrum(coeffs: [Double], length: Int) -> SpectrumData {
+	static func calcSpectrum(coeffs: [Double], length: Int, sigma2: Double) -> SpectrumData {
 		let degree = coeffs.count
 		let spectrumLength = length / 2 + 1
 
 		var points = [SpectrumPoint]()
 
 		for var j = 0; j < spectrumLength; j++ {
-			let frequency = Double(j) * (1000.0 / Constants.RESMPLE_INTERAL_MS) / Double(length)
-			let theta = 2.0 * M_PI * frequency
+			let f = Double(j) * 1.0 / Double(length)
+			let theta = 2.0 * M_PI * f
 
 			var rv = 1.0;
 			var iv = 0.0;
 
 			for var k = 0; k < degree; k++ {
-				let c = coeffs[k]
+				let a = coeffs[k]
 				let t = Double(-(k + 1)) * theta
-				rv -= c * cos(t)
-				iv -= c * sin(t)
+				rv -= a * cos(t)
+				iv -= a * sin(t)
 			}
 
-			let psd = 1.0 / (rv * rv + iv * iv)
-			points.append(SpectrumPoint(frequency: frequency, psd: psd))
+			let psd = sigma2 / (rv * rv + iv * iv)
+			let realFreq = f * 1000.0 / Constants.RESMPLE_INTERAL_MS
+			points.append(SpectrumPoint(frequency: realFreq, psd: psd))
 		}
 
 		let spectrumData = SpectrumData(points: points)
@@ -238,6 +242,7 @@ class SpectrumAnalyzer {
 		}
 
 		var minAic = DBL_MAX
+		var bestSigma2 = 0.0
 		var bestDegree = -1
 		var maxDegree = 50
 		var bestCoeffcients: [Double]? = nil
@@ -250,8 +255,9 @@ class SpectrumAnalyzer {
 
 		for var i = 1; i < maxDegree; ++i {
 			var aic = 0.0
+			var sigma2 = 0.0
 			let coefficients: [Double]? =
-			calcAutoRegressionCoeffs(resampledIntervals!, degree: i, aic: &aic)
+			calcAutoRegressionCoeffs(resampledIntervals!, degree: i, aic: &aic, sigma2: &sigma2)
 			if coefficients == nil {
 				print("calc auto regression failed")
 				continue
@@ -260,15 +266,17 @@ class SpectrumAnalyzer {
 				if aic < minAic {
 					minAic = aic
 					bestDegree = i
+					bestSigma2 = sigma2
 					bestCoeffcients = coefficients
 				}
 			}
 		}
 
 		print("best degree=\(bestDegree)")
+		print("best sigma2=\(bestSigma2)")
 
 		if maxDegree != -1 {
-			return calcSpectrum(bestCoeffcients!, length: resampledIntervals!.count)
+			return calcSpectrum(bestCoeffcients!, length: resampledIntervals!.count, sigma2: bestSigma2)
 		} else {
 			return nil
 		}
