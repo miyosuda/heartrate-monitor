@@ -17,6 +17,8 @@ struct Beat {
 }
 
 class BeatsData {
+	private let REGULAR_BEAT_INTERVAL_DIFF_RATE = 0.2
+
 	var beats: [Beat]
 
 	init(intervals: [Double]) {
@@ -41,8 +43,105 @@ class BeatsData {
 			}
 		}
 	}
-    
-    var isValid : Bool {
-        return beats.count > 0
-    }
+
+	var isValid: Bool {
+		return beats.count > 0
+	}
+
+	func removeIrregularBeats() {
+		if !isValid {
+			return
+		}
+
+		var newBeats: [Beat] = []
+
+		let size = beats.count
+
+		var lastBeat = beats[0]
+		newBeats.append(lastBeat)
+
+		var removedBeatCount = 0
+
+		for var i = 1; i < size; ++i {
+			let beat = beats[i]
+			let rate = beat.interval / lastBeat.interval
+			if rate >= (1.0 - REGULAR_BEAT_INTERVAL_DIFF_RATE) && rate <= (1.0 + REGULAR_BEAT_INTERVAL_DIFF_RATE) {
+				newBeats.append(beat)
+			} else {
+				removedBeatCount++
+			}
+			lastBeat = beat
+		}
+
+		print("irregular beat removed: \(removedBeatCount)")
+
+		beats = newBeats
+	}
+
+	var avnn: Double {
+		get {
+			var sum = 0.0
+			for beat in beats {
+				sum += beat.interval
+			}
+
+			let size = beats.count
+			return sum / Double(size);
+		}
+	}
+
+	var sdnn: Double {
+		get {
+			let average = avnn
+			var d = 0.0
+
+			for beat in beats {
+				let v = beat.interval - average
+				d += (v * v)
+			}
+
+			let size = beats.count
+			return sqrt(d / Double(size))
+		}
+	}
+
+	var rmssd: Double {
+		get {
+			var d = 0.0
+
+			let size = beats.count
+
+			for var i = 0; i < size - 1; ++i {
+				let interval0 = beats[i].interval
+				let interval1 = beats[i + 1].interval
+				let diff = interval1 - interval0
+				d += (diff * diff)
+			}
+
+			return sqrt(d / Double(size - 1))
+		}
+	}
+
+	var pnn50: Double {
+		get {
+			var count: Int = 0
+
+			let size = beats.count
+			for var i = 0; i < size - 1; ++i {
+				let interval0 = beats[i].interval
+				let interval1 = beats[i + 1].interval
+				var diff = interval1 - interval0
+				if diff < 0.0 {
+					diff = -diff
+				}
+
+				if diff > 50.0 {
+					// greater than 50ms
+					count++
+				}
+			}
+
+			return Double(count) / Double(size) * 100.0
+		}
+	}
 }

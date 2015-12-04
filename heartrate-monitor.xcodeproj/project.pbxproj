@@ -23,7 +23,6 @@
 		4799CD511C111DCC007548AA /* BeatsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4799CD4F1C111903007548AA /* BeatsData.swift */; };
 		47A46AD31C0CAC6400A6EBD6 /* SampleInterpolator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EF81381BD553C8004FDFDA /* SampleInterpolator.swift */; };
 		47A46AD41C0CAC7900A6EBD6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4729A6D21C0AB1E600D1C9CB /* Constants.swift */; };
-		47A46AD51C0CAC7900A6EBD6 /* HRVUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EF81361BD41396004FDFDA /* HRVUtils.swift */; };
 		47A46AD61C0CAC8200A6EBD6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47428AAD1B4619C40070280A /* AppDelegate.swift */; };
 		47A46AD71C0CAC8500A6EBD6 /* HeartRateDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47428ACE1B46267E0070280A /* HeartRateDelegate.swift */; };
 		47A46AD81C0CAC8500A6EBD6 /* HeartRateCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47428ACA1B461A480070280A /* HeartRateCenter.swift */; };
@@ -34,7 +33,6 @@
 		47A46ADD1C0CAC8B00A6EBD6 /* BreathView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47ED13C31C09C64400D7B640 /* BreathView.swift */; };
 		47A46ADE1C0CAC8E00A6EBD6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47428AAF1B4619C40070280A /* ViewController.swift */; };
 		47ED13C41C09C64400D7B640 /* BreathView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47ED13C31C09C64400D7B640 /* BreathView.swift */; };
-		47EF81371BD41396004FDFDA /* HRVUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EF81361BD41396004FDFDA /* HRVUtils.swift */; };
 		47EF81391BD553C8004FDFDA /* SampleInterpolator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EF81381BD553C8004FDFDA /* SampleInterpolator.swift */; };
 /* End PBXBuildFile section */
 
@@ -67,7 +65,6 @@
 		478FAE101BD6A3E40077CC70 /* SpectrumAnalyzer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpectrumAnalyzer.swift; sourceTree = "<group>"; };
 		4799CD4F1C111903007548AA /* BeatsData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeatsData.swift; sourceTree = "<group>"; };
 		47ED13C31C09C64400D7B640 /* BreathView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BreathView.swift; sourceTree = "<group>"; };
-		47EF81361BD41396004FDFDA /* HRVUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HRVUtils.swift; sourceTree = "<group>"; };
 		47EF81381BD553C8004FDFDA /* SampleInterpolator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleInterpolator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -179,7 +176,6 @@
 			isa = PBXGroup;
 			children = (
 				4729A6D21C0AB1E600D1C9CB /* Constants.swift */,
-				47EF81361BD41396004FDFDA /* HRVUtils.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -296,7 +292,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				47ED13C41C09C64400D7B640 /* BreathView.swift in Sources */,
-				47EF81371BD41396004FDFDA /* HRVUtils.swift in Sources */,
 				47428ACD1B461A480070280A /* HeratRatePeripheral.swift in Sources */,
 				478FAE111BD6A3E40077CC70 /* SpectrumAnalyzer.swift in Sources */,
 				47428ACC1B461A480070280A /* HeartRateCenter.swift in Sources */,
@@ -323,7 +318,6 @@
 				47428AC11B4619C50070280A /* heartrate_monitorTests.swift in Sources */,
 				47A46ADB1C0CAC8900A6EBD6 /* SpectrumData.swift in Sources */,
 				4799CD511C111DCC007548AA /* BeatsData.swift in Sources */,
-				47A46AD51C0CAC7900A6EBD6 /* HRVUtils.swift in Sources */,
 				47A46ADE1C0CAC8E00A6EBD6 /* ViewController.swift in Sources */,
 				47A46AD61C0CAC8200A6EBD6 /* AppDelegate.swift in Sources */,
 				47A46AD41C0CAC7900A6EBD6 /* Constants.swift in Sources */,

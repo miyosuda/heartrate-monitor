@@ -98,18 +98,19 @@ class ViewController: NSViewController, HeartRateDelegate {
 	}
 
 	func analyzeIntervals() {
-		let avnn = HRVUtils.calcAVNN(heartRateRRIntervalDatas)
-		let sdnn = HRVUtils.calcSDNN(heartRateRRIntervalDatas)
-		let rmssd = HRVUtils.calcRMSSD(heartRateRRIntervalDatas)
-		let pnn50 = HRVUtils.calcPNN50(heartRateRRIntervalDatas)
+        let beatsData = BeatsData(intervals:heartRateRRIntervalDatas)
+        beatsData.removeIrregularBeats()
+        
+		let avnn = beatsData.avnn
+		let sdnn = beatsData.sdnn
+		let rmssd = beatsData.rmssd
+		let pnn50 = beatsData.pnn50
 
 		avnnLabel.stringValue = String(format: "%.2f", avnn)
 		sdnnLabel.stringValue = String(format: "%.2f", sdnn)
 		rmssdLabel.stringValue = String(format: "%.2f", rmssd)
 		pnn50Label.stringValue = String(format: "%.2f", pnn50)
-        
-        let beatsData = BeatsData(intervals:heartRateRRIntervalDatas)
-
+     
 		let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
 		dispatch_async(queue) {
 			let spectrumData = SpectrumAnalyzer.process(beatsData)

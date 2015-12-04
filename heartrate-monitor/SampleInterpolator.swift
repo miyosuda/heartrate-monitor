@@ -77,7 +77,7 @@ class SampleInterpolator {
 
 		let lastTime = beats[beats.count - 1].time
 
-		// put 4 samples per one second
+		// put (1000/RESAMPLE_INTERVAL_MS) samples per one second
 		let sampleSize = Int(floor(lastTime / Constants.RESMPLE_INTERAL_MS)) + 1
 
 		for var i = 0; i < sampleSize; ++i {
