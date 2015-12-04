@@ -28,8 +28,10 @@ class heartrate_monitorTests: XCTestCase {
 		rawIntervals.append(200.0)
 		rawIntervals.append(100.0)
 		rawIntervals.append(200.0)
+        
+        let beatsData = BeatsData(intervals:rawIntervals)
 
-		var resampledIntervals = SampleInterpolator.process(rawIntervals)
+		var resampledIntervals = SampleInterpolator.process(beatsData.beats)
 
 		XCTAssert(resampledIntervals != nil)
 
@@ -49,8 +51,8 @@ class heartrate_monitorTests: XCTestCase {
         rawIntervals.append(200.0)
         rawIntervals.append(200.0)
         
-        var resampledIntervals = SampleInterpolator.process(rawIntervals)
-
+        let beatsData = BeatsData(intervals:rawIntervals)
+        var resampledIntervals = SampleInterpolator.process(beatsData.beats)
         
         XCTAssert(resampledIntervals != nil)
         

@@ -8,14 +8,6 @@
 
 import Foundation
 
-struct Beat {
-	/// time in msec
-	var time: Double
-
-	// interval in msec
-	var interval: Double
-}
-
 class Sample {
 	/// interpolated time in msec
 	private var time: Double = 0.0
@@ -80,30 +72,8 @@ class SampleInterpolator {
 	/**
 	* Resample RR intervals with interval of Const.RESMPLE_INTERAL_MS millisec.
 	*/
-	static func process(intervals: [Double]) -> [Double]? {
-		var beats: [Beat] = []
+	static func process(beats: [Beat]) -> [Double]? {
 		var samples: [Sample] = []
-
-		let intervalSize = intervals.count
-
-		if intervalSize < 1 {
-			print("intervals were too short\n")
-			return nil
-		}
-
-		var time = 0.0
-		var interval = intervals[0]
-
-		for var i = 0; i < intervalSize; ++i {
-			let beat = Beat(time: time, interval: interval)
-			beats.append(beat)
-
-			if i < intervalSize - 1 {
-				let nextInterval = intervals[i + 1]
-				time += nextInterval
-				interval = nextInterval
-			}
-		}
 
 		let lastTime = beats[beats.count - 1].time
 

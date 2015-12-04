@@ -234,9 +234,9 @@ class SpectrumAnalyzer {
 		return spectrumData
 	}
 
-	static func process(intervals: [Double]) -> SpectrumData? {
+    static func process(beatsData: BeatsData) -> SpectrumData? {
 		// Resample intervals with Const.RESMPLE_INTERAL_MS millisec interval.
-		let resampledIntervals = SampleInterpolator.process(intervals)
+		let resampledIntervals = SampleInterpolator.process(beatsData.beats)
 		if resampledIntervals == nil {
 			return nil
 		}
@@ -247,8 +247,8 @@ class SpectrumAnalyzer {
 		var maxDegree = 50
 		var bestCoeffcients: [Double]? = nil
 
-		if maxDegree > intervals.count {
-			maxDegree = intervals.count
+		if maxDegree > resampledIntervals!.count {
+			maxDegree = resampledIntervals!.count
 		}
 
 		var aics = [Double](count: maxDegree, repeatedValue: DBL_MAX)

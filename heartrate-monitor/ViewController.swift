@@ -107,12 +107,12 @@ class ViewController: NSViewController, HeartRateDelegate {
 		sdnnLabel.stringValue = String(format: "%.2f", sdnn)
 		rmssdLabel.stringValue = String(format: "%.2f", rmssd)
 		pnn50Label.stringValue = String(format: "%.2f", pnn50)
-
-		let copiedHeartRateRRIntervalDatas = heartRateRRIntervalDatas
+        
+        let beatsData = BeatsData(intervals:heartRateRRIntervalDatas)
 
 		let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
 		dispatch_async(queue) {
-			let spectrumData = SpectrumAnalyzer.process(copiedHeartRateRRIntervalDatas)
+			let spectrumData = SpectrumAnalyzer.process(beatsData)
 			if (spectrumData != nil) {
 				dispatch_async(dispatch_get_main_queue()) {
 					self.showSpectrumGraph(spectrumData!)
