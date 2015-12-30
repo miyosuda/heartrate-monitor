@@ -22,13 +22,14 @@ class ViewController: NSViewController, HeartRateDelegate {
 	@IBOutlet weak var rmssdLabel: NSTextField!
 	@IBOutlet weak var pnn50Label: NSTextField!
 
-    @IBOutlet weak var lfLabel: NSTextField!
-    @IBOutlet weak var hfLabel: NSTextField!
-    @IBOutlet weak var lfhfLabel: NSTextField!
-    
+	@IBOutlet weak var lfLabel: NSTextField!
+	@IBOutlet weak var hfLabel: NSTextField!
+	@IBOutlet weak var lfhfLabel: NSTextField!
+
+	@IBOutlet weak var graphTabView: NSTabView!
 	@IBOutlet weak var spectrumGraphView: SpectrumGraphView!
 
-    @IBOutlet weak var breathView: BreathView!
+	@IBOutlet weak var breathView: BreathView!
 
 	var heartRateCenter: HeartRateCenter!
 	var heartRateRRIntervalDatas: [Double]!
@@ -39,6 +40,7 @@ class ViewController: NSViewController, HeartRateDelegate {
 		super.viewDidLoad()
 
 		stateLabel.stringValue = "init"
+		graphTabView.hidden = true
 	}
 
 	override func viewDidAppear() {
@@ -63,7 +65,10 @@ class ViewController: NSViewController, HeartRateDelegate {
 
 	@IBAction func onStartButtonPushed(sender: AnyObject) {
 		if (heartRateCenter == nil) {
+			breathView.hidden = false
+			graphTabView.hidden = true
 			breathView.start()
+
 
 			heartRateCenter = HeartRateCenter(delegate: self)
 			heartRateCenter.setup()
@@ -78,6 +83,8 @@ class ViewController: NSViewController, HeartRateDelegate {
 			loadButton.hidden = true
 
 		} else {
+			breathView.hidden = true
+			graphTabView.hidden = false
 			breathView.stop()
 
 			heartRateCenter.cleanup()
@@ -98,9 +105,15 @@ class ViewController: NSViewController, HeartRateDelegate {
 	}
 
 	func analyzeIntervals() {
-        let beatsData = BeatsData(intervals:heartRateRRIntervalDatas)
-        beatsData.removeIrregularBeats()
-        
+		graphTabView.hidden = false
+
+		let beatsData = BeatsData(intervals: heartRateRRIntervalDatas)
+		beatsData.removeIrregularBeats()
+
+		if !beatsData.isValid {
+			return
+		}
+
 		let avnn = beatsData.avnn
 		let sdnn = beatsData.sdnn
 		let rmssd = beatsData.rmssd
@@ -110,7 +123,7 @@ class ViewController: NSViewController, HeartRateDelegate {
 		sdnnLabel.stringValue = String(format: "%.2f", sdnn)
 		rmssdLabel.stringValue = String(format: "%.2f", rmssd)
 		pnn50Label.stringValue = String(format: "%.2f", pnn50)
-     
+
 		let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
 		dispatch_async(queue) {
 			let spectrumData = SpectrumAnalyzer.process(beatsData)
@@ -118,12 +131,12 @@ class ViewController: NSViewController, HeartRateDelegate {
 				dispatch_async(dispatch_get_main_queue()) {
 					self.showSpectrumGraph(spectrumData!)
 
-                    let lf = spectrumData!.lf
-                    let hf = spectrumData!.hf
-                    let lfhf = lf/hf
-                    self.lfLabel.stringValue = String(format: "%.3f", lf)
-                    self.hfLabel.stringValue = String(format: "%.3f", hf)
-                    self.lfhfLabel.stringValue = String(format: "%.3f", lfhf)
+					let lf = spectrumData!.lf
+					let hf = spectrumData!.hf
+					let lfhf = lf / hf
+					self.lfLabel.stringValue = String(format: "%.3f", lf)
+					self.hfLabel.stringValue = String(format: "%.3f", hf)
+					self.lfhfLabel.stringValue = String(format: "%.3f", lfhf)
 				}
 			}
 		}
