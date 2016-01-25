@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F1509" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F1605" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9531"/>
     </dependencies>
@@ -383,18 +383,18 @@
                                 <font key="font" metaFont="system"/>
                                 <tabViewItems>
                                     <tabViewItem label="Spectrum" identifier="1" id="BLB-sF-oUV">
-                                        <view key="view" ambiguous="YES" id="qzt-1t-xYR">
-                                            <rect key="frame" x="10" y="33" width="631" height="360"/>
+                                        <view key="view" id="qzt-1t-xYR">
+                                            <rect key="frame" x="10" y="33" width="136" height="0.0"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mxD-fd-NR7" customClass="SpectrumGraphView" customModule="heartrate_monitor" customModuleProvider="target">
-                                                    <rect key="frame" x="-3" y="2" width="637" height="355"/>
+                                                    <rect key="frame" x="-3" y="-358" width="637" height="355"/>
                                                 </customView>
                                             </subviews>
                                         </view>
                                     </tabViewItem>
                                     <tabViewItem label="Index" identifier="2" id="FgX-IM-oS9">
-                                        <view key="view" id="tiC-EP-sMv">
+                                        <view key="view" ambiguous="YES" id="tiC-EP-sMv">
                                             <rect key="frame" x="10" y="33" width="631" height="360"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </view>

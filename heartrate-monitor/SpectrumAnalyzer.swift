@@ -8,6 +8,10 @@
 
 import Foundation
 
+/**
+* Spectrum Analyze using Auto Regressive method. (Yule-Walker method)
+*/
+
 class SpectrumAnalyzer {
 	static func solveLinearEquations(inout mat: Array<Array<Double>>, inout v: [Double]) -> Bool {
 		let degree = v.count
@@ -234,21 +238,19 @@ class SpectrumAnalyzer {
 		return spectrumData
 	}
 
-    static func process(beatsData: BeatsData) -> SpectrumData? {
-		// Resample intervals with Const.RESMPLE_INTERAL_MS millisec interval.
-		let resampledIntervals = SampleInterpolator.process(beatsData.beats)
-		if resampledIntervals == nil {
-			return nil
-		}
-
+	/**
+	* @param resampledIntervals
+	*           Resample intervals with Const.RESMPLE_INTERAL_MS millisec interval.
+	*/
+	static func process(resampledIntervals: [Double]) -> SpectrumData? {
 		var minAic = DBL_MAX
 		var bestSigma2 = 0.0
 		var bestDegree = -1
 		var maxDegree = 50
 		var bestCoeffcients: [Double]? = nil
 
-		if maxDegree > resampledIntervals!.count {
-			maxDegree = resampledIntervals!.count
+		if maxDegree > resampledIntervals.count {
+			maxDegree = resampledIntervals.count
 		}
 
 		var aics = [Double](count: maxDegree, repeatedValue: DBL_MAX)
@@ -257,7 +259,7 @@ class SpectrumAnalyzer {
 			var aic = 0.0
 			var sigma2 = 0.0
 			let coefficients: [Double]? =
-			calcAutoRegressionCoeffs(resampledIntervals!, degree: i, aic: &aic, sigma2: &sigma2)
+			calcAutoRegressionCoeffs(resampledIntervals, degree: i, aic: &aic, sigma2: &sigma2)
 			if coefficients == nil {
 				print("calc auto regression failed")
 				continue
@@ -276,7 +278,7 @@ class SpectrumAnalyzer {
 		print("best sigma2=\(bestSigma2)")
 
 		if maxDegree != -1 {
-			return calcSpectrum(bestCoeffcients!, length: resampledIntervals!.count, sigma2: bestSigma2)
+			return calcSpectrum(bestCoeffcients!, length: resampledIntervals.count, sigma2: bestSigma2)
 		} else {
 			return nil
 		}

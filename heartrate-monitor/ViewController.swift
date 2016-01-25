@@ -126,7 +126,14 @@ class ViewController: NSViewController, HeartRateDelegate {
 
 		let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
 		dispatch_async(queue) {
-			let spectrumData = SpectrumAnalyzer.process(beatsData)
+			// Resample intervals with Const.RESMPLE_INTERAL_MS millisec interval.
+			let resampledIntervals = SampleInterpolator.process(beatsData.beats)
+			if resampledIntervals == nil {
+				return
+			}
+
+			// AR spectrum analysis
+			let spectrumData = SpectrumAnalyzer.process(resampledIntervals!)
 			if (spectrumData != nil) {
 				dispatch_async(dispatch_get_main_queue()) {
 					self.showSpectrumGraph(spectrumData!)
@@ -139,6 +146,8 @@ class ViewController: NSViewController, HeartRateDelegate {
 					self.lfhfLabel.stringValue = String(format: "%.3f", lfhf)
 				}
 			}
+            
+            let blanceIndex = BalanceIndexAnalyzer.process(resampledIntervals!)
 		}
 	}
 
