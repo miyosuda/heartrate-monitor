@@ -73,19 +73,71 @@ class BalanceIndexAnalyzer {
         
         var logFreqs = [Double](count: useSampleCount/2, repeatedValue: 0.0)
         var logPowers = [Double](count: useSampleCount/2, repeatedValue: 0.0)
+
+		let halfUsedSampleCount = useSampleCount/2		
 		
-		for var i = 0; i < useSampleCount / 2; i++ {
+		for var i = 0; i < halfUsedSampleCount; i++ {
             let f = Double(i) * 1.0 / Double(useSampleCount)
             let freq = f * 1000.0 / Constants.RESMPLE_INTERAL_MS
-            logFreqs[i] = log10(freq)
+			if i != 0 {
+				logFreqs[i] = log10(freq)
+			} else {
+				// TODO: solve -inf problem
+				logFreqs[i] = 0.0
+			}
             
 			let power = powers[i]
             logPowers[i] = log10(power)
 			print("\(logFreqs[i]), \(logPowers[i])")
 		}
-        
-		// TODO:
 		
-		return 0.0
+		var ux = 0.0
+		var uy = 0.0
+		var exy = 0.0
+		
+		//for var i = 0; i < halfUsedSampleCount; i++ {
+		for var i = 1; i < halfUsedSampleCount; i++ { //..
+			let x = logFreqs[i]
+			let y = logPowers[i]
+			ux += x
+			uy += y
+			exy += (x * y)
+		}
+
+		/*
+		ux /= Double(halfUsedSampleCount)
+		uy /= Double(halfUsedSampleCount)
+		exy /= Double(halfUsedSampleCount)
+		*/
+
+		ux /= Double(halfUsedSampleCount-1)
+		uy /= Double(halfUsedSampleCount-1)
+		exy /= Double(halfUsedSampleCount-1)
+		
+        let covxy = exy - ux * uy
+
+		print("ux=\(ux)") //..
+		print("uy=\(uy)") //..
+		print("covxy=\(covxy)") //..
+
+		var sigmaX2 = 0.0
+
+		//for var i = 0; i < halfUsedSampleCount; i++ {
+		for var i = 1; i < halfUsedSampleCount; i++ {
+			let x = logFreqs[i]
+			let dx = x - ux
+			sigmaX2 += (dx * dx)
+		}
+
+		//sigmaX2 /= Double(halfUsedSampleCount)
+		sigmaX2 /= Double(halfUsedSampleCount-1)
+
+		print("sigmaX2=\(sigmaX2)")
+
+		let balanceIndex = -(covxy / sigmaX2)
+
+		print("balance index=\(balanceIndex)")
+		
+		return balanceIndex
 	}
 }
