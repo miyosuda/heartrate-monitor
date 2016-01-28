@@ -147,7 +147,10 @@ class ViewController: NSViewController, HeartRateDelegate {
 				}
 			}
             
-            let blanceIndex = BalanceIndexAnalyzer.process(resampledIntervals!)
+            let logSpectrumData = BalanceIndexAnalyzer.process(resampledIntervals!)
+            let balanceIndex = logSpectrumData.balanceIndex
+            
+            print("\(balanceIndex)")
 		}
 	}
 
