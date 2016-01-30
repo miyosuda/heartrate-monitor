@@ -28,6 +28,7 @@ class ViewController: NSViewController, HeartRateDelegate {
 
 	@IBOutlet weak var graphTabView: NSTabView!
 	@IBOutlet weak var spectrumGraphView: SpectrumGraphView!
+	@IBOutlet weak var balanceIndexGraphView: BalanceIndexGraphView!
 
 	@IBOutlet weak var breathView: BreathView!
 
@@ -146,16 +147,24 @@ class ViewController: NSViewController, HeartRateDelegate {
 					self.lfhfLabel.stringValue = String(format: "%.3f", lfhf)
 				}
 			}
-            
-            let logSpectrumData = BalanceIndexAnalyzer.process(resampledIntervals!)
-            let balanceIndex = logSpectrumData.balanceIndex
-            
-            print("\(balanceIndex)")
+
+			// BalanceIndex analysis
+			let logSpectrumData = BalanceIndexAnalyzer.process(resampledIntervals!)
+			let balanceIndex = logSpectrumData.balanceIndex
+			print("\(balanceIndex)")
+
+			dispatch_async(dispatch_get_main_queue()) {
+				self.showBalanceIndexGraph(logSpectrumData)
+			}
 		}
 	}
 
 	func showSpectrumGraph(spectrumData: SpectrumData) {
 		spectrumGraphView.setSpectrumData(spectrumData)
+	}
+
+	func showBalanceIndexGraph(logSpectrumData: LogSpectrumData) {
+		balanceIndexGraphView.setLogSpectrumData(logSpectrumData)
 	}
 
 	func chooseLoadData() {

@@ -83,9 +83,9 @@ class BalanceIndexAnalyzer {
 			let power = powers[i]
 			let logPower = log10(power)
             points.append(LogSpectrumPoint(logFrequency: logFreq, logPsd: logPower))
-        }
-        
-        let logSpectrumData = LogSpectrumData(points: points)
-        return logSpectrumData
+		}
+		
+		let logSpectrumData = LogSpectrumData(points: points)
+		return logSpectrumData
 	}
 }

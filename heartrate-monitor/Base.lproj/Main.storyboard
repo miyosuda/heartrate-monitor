@@ -384,11 +384,11 @@
                                 <tabViewItems>
                                     <tabViewItem label="Spectrum" identifier="1" id="BLB-sF-oUV">
                                         <view key="view" id="qzt-1t-xYR">
-                                            <rect key="frame" x="10" y="33" width="136" height="0.0"/>
+                                            <rect key="frame" x="10" y="33" width="631" height="360"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mxD-fd-NR7" customClass="SpectrumGraphView" customModule="heartrate_monitor" customModuleProvider="target">
-                                                    <rect key="frame" x="-3" y="-358" width="637" height="355"/>
+                                                    <rect key="frame" x="-3" y="2" width="637" height="355"/>
                                                 </customView>
                                             </subviews>
                                         </view>
@@ -397,6 +397,11 @@
                                         <view key="view" ambiguous="YES" id="tiC-EP-sMv">
                                             <rect key="frame" x="10" y="33" width="631" height="360"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hOL-6L-1sn" customClass="BalanceIndexGraphView" customModule="heartrate_monitor" customModuleProvider="target">
+                                                    <rect key="frame" x="-3" y="9" width="637" height="355"/>
+                                                </customView>
+                                            </subviews>
                                         </view>
                                     </tabViewItem>
                                 </tabViewItems>
@@ -405,6 +410,7 @@
                     </view>
                     <connections>
                         <outlet property="avnnLabel" destination="P5l-bN-ILY" id="qbM-PT-nWP"/>
+                        <outlet property="balanceIndexGraphView" destination="hOL-6L-1sn" id="PQG-WO-O7E"/>
                         <outlet property="breathView" destination="N1x-Ck-vth" id="GeA-eK-ZqV"/>
                         <outlet property="durationLabel" destination="iPZ-5k-lgd" id="lwo-JH-8e3"/>
                         <outlet property="graphTabView" destination="OLi-pA-fPo" id="CE0-cU-MGt"/>

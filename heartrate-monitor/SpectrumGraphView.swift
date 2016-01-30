@@ -41,13 +41,13 @@ class SpectrumGraphView: NSView {
 	}
 
 	private func drawVerticalGridValue(value: Double, x: Double, y: Double) {
-        var str:NSString! = nil
-        if value > 1000.0 {
-            str = NSString(string: String(format: "%.0fK", value/1000.0))
-        } else {
-            str = NSString(string: String(format: "%.0f", value))
-        }
-        
+		var str: NSString! = nil
+		if value > 1000.0 {
+			str = NSString(string: String(format: "%.0fK", value / 1000.0))
+		} else {
+			str = NSString(string: String(format: "%.0f", value))
+		}
+
 		drawVerticalString(String(str), x: x, y: y)
 	}
 
@@ -155,7 +155,7 @@ class SpectrumGraphView: NSView {
 		// Grid Y axis
 		count = 0
 		let gridUnitY = getGridUnit(maxPsd)
-        
+
 		for (var y = 0.0; y <= maxPsd; y += gridUnitY) {
 			// horizontal line
 			let path: NSBezierPath = NSBezierPath()
