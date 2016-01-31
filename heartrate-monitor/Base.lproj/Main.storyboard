@@ -378,23 +378,31 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y9K-Bc-dA0" userLabel="BI">
+                                <rect key="frame" x="529" y="423" width="53" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="B-Index" id="Upo-wZ-QFT">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                             <tabView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OLi-pA-fPo">
                                 <rect key="frame" x="25" y="15" width="651" height="406"/>
                                 <font key="font" metaFont="system"/>
                                 <tabViewItems>
                                     <tabViewItem label="Spectrum" identifier="1" id="BLB-sF-oUV">
-                                        <view key="view" id="qzt-1t-xYR">
-                                            <rect key="frame" x="10" y="33" width="631" height="360"/>
+                                        <view key="view" ambiguous="YES" id="qzt-1t-xYR">
+                                            <rect key="frame" x="10" y="33" width="136" height="0.0"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mxD-fd-NR7" customClass="SpectrumGraphView" customModule="heartrate_monitor" customModuleProvider="target">
-                                                    <rect key="frame" x="-3" y="2" width="637" height="355"/>
+                                                    <rect key="frame" x="-3" y="-358" width="637" height="355"/>
                                                 </customView>
                                             </subviews>
                                         </view>
                                     </tabViewItem>
                                     <tabViewItem label="Index" identifier="2" id="FgX-IM-oS9">
-                                        <view key="view" ambiguous="YES" id="tiC-EP-sMv">
+                                        <view key="view" id="tiC-EP-sMv">
                                             <rect key="frame" x="10" y="33" width="631" height="360"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
@@ -406,11 +414,20 @@
                                     </tabViewItem>
                                 </tabViewItems>
                             </tabView>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k8L-JO-h0P">
+                                <rect key="frame" x="583" y="423" width="100" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="0.0" id="gGs-U7-B0L">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                     </view>
                     <connections>
                         <outlet property="avnnLabel" destination="P5l-bN-ILY" id="qbM-PT-nWP"/>
                         <outlet property="balanceIndexGraphView" destination="hOL-6L-1sn" id="PQG-WO-O7E"/>
+                        <outlet property="balanceIndexLabel" destination="k8L-JO-h0P" id="0yg-CT-Lds"/>
                         <outlet property="breathView" destination="N1x-Ck-vth" id="GeA-eK-ZqV"/>
                         <outlet property="durationLabel" destination="iPZ-5k-lgd" id="lwo-JH-8e3"/>
                         <outlet property="graphTabView" destination="OLi-pA-fPo" id="CE0-cU-MGt"/>

@@ -25,6 +25,7 @@ class ViewController: NSViewController, HeartRateDelegate {
 	@IBOutlet weak var lfLabel: NSTextField!
 	@IBOutlet weak var hfLabel: NSTextField!
 	@IBOutlet weak var lfhfLabel: NSTextField!
+	@IBOutlet weak var balanceIndexLabel: NSTextField!
 
 	@IBOutlet weak var graphTabView: NSTabView!
 	@IBOutlet weak var spectrumGraphView: SpectrumGraphView!
@@ -150,13 +151,14 @@ class ViewController: NSViewController, HeartRateDelegate {
 
 			// BalanceIndex analysis
 			let logSpectrumData = BalanceIndexAnalyzer.process(resampledIntervals!)
-			let (a,_) = logSpectrumData.calcSlope()
+			let (a, _ ) = logSpectrumData.calcSlope()
 			let balanceIndex = -a
-			print("balanceIndex=\(balanceIndex)")
 
 			dispatch_async(dispatch_get_main_queue()) {
 				self.showBalanceIndexGraph(logSpectrumData)
+				self.balanceIndexLabel.stringValue = String(format: "%.3f", balanceIndex)
 			}
+
 		}
 	}
 
