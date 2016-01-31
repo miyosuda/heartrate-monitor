@@ -57,7 +57,7 @@ struct LogSpectrumData {
 		return points[0].logFrequency
 	}
 	
-	var balanceIndex: Double {
+	func calcSlope() -> (Double, Double) {
 		var ux = 0.0
 		var uy = 0.0
 		var exy = 0.0
@@ -87,13 +87,12 @@ struct LogSpectrumData {
 		}
 		
 		sigmaX2 /= Double(pointCount)
-		
-		print("sigmaX2=\(sigmaX2)")
-		
-		let balanceIndex = -(covxy / sigmaX2)
-		
-		print("balance index=\(balanceIndex)")
-		
-		return balanceIndex
+
+		// Slope
+		let a = (covxy / sigmaX2)
+
+		// Y axis intecept
+		let b = uy - a * ux
+		return (a, b)
 	}
 }

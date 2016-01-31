@@ -150,8 +150,9 @@ class ViewController: NSViewController, HeartRateDelegate {
 
 			// BalanceIndex analysis
 			let logSpectrumData = BalanceIndexAnalyzer.process(resampledIntervals!)
-			let balanceIndex = logSpectrumData.balanceIndex
-			print("\(balanceIndex)")
+			let (a,_) = logSpectrumData.calcSlope()
+			let balanceIndex = -a
+			print("balanceIndex=\(balanceIndex)")
 
 			dispatch_async(dispatch_get_main_queue()) {
 				self.showBalanceIndexGraph(logSpectrumData)

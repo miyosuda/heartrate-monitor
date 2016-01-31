@@ -80,9 +80,9 @@ class BalanceIndexGraphView: NSView {
 		return base
 	}
 
-	private func drawLineWithStartX(startX: Double, startY: Double, endX: Double, endY: Double) {
+    private func drawLineWithStartX(startX: Double, startY: Double, endX: Double, endY: Double, lineWidth:CGFloat=0.2) {
 		let path: NSBezierPath = NSBezierPath()
-		path.lineWidth = 0.2
+		path.lineWidth = lineWidth
 		path.moveToPoint(NSPoint(x: startX, y: startY))
 		path.lineToPoint(NSPoint(x: endX, y: endY))
 		path.stroke()
@@ -169,6 +169,24 @@ class BalanceIndexGraphView: NSView {
 			path.lineToPoint(NSPoint(x: px, y: py))
 			path.stroke()
 		}
+
+		// Slope
+		let (a, b) = logSpectrumData.calcSlope()
+
+		let x0 = 0.0
+		let y0 = b
+
+		let x1 = -(b / a)
+		let y1 = 0.0
+
+		let px0: Double = (x0 - minFreq) * scaleX + marginX
+		let py0: Double = (y0 - minPsd) * scaleY + marginY
+		let px1: Double = (x1 - minFreq) * scaleX + marginX
+		let py1: Double = (y1 - minPsd) * scaleY + marginY
+
+		let slopeColor = NSColor(red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0)
+		slopeColor.set()
+		drawLineWithStartX(px0, startY: py0, endX: px1, endY: py1, lineWidth: 0.4)
 	}
 
 	override func drawRect(rect: CGRect) {
