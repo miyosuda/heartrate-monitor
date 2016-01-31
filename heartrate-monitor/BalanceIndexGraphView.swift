@@ -173,11 +173,11 @@ class BalanceIndexGraphView: NSView {
 		// Slope
 		let (a, b) = logSpectrumData.calcSlope()
 
-		let x0 = 0.0
-		let y0 = b
+		let x0 = minFreq
+		let y0 = minFreq * a + b
 
-		let x1 = -(b / a)
-		let y1 = 0.0
+		let x1 = maxFreq
+		let y1 = maxFreq * a + b
 
 		let px0: Double = (x0 - minFreq) * scaleX + marginX
 		let py0: Double = (y0 - minPsd) * scaleY + marginY
