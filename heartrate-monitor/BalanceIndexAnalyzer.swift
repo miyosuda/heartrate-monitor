@@ -26,11 +26,11 @@ class BalanceIndexAnalyzer {
 		let resampledIntervalsPointer = UnsafePointer<Double>(resampledIntervals)
 		let log2n : vDSP_Length = vDSP_Length(log2(Double(useSampleCount)))
 
-		let fftSetup : FFTSetup = vDSP_create_fftsetupD(log2n, Int32(kFFTRadix2))
+		let fftSetup : FFTSetup = vDSP_create_fftsetupD(log2n, Int32(kFFTRadix2))!
 
 		// Window function
-		var windowData = [Double](count: useSampleCount, repeatedValue: 0)
-		var windowedOutput = [Double](count: useSampleCount, repeatedValue: 0)
+		var windowData = [Double](repeating: 0, count: useSampleCount)
+		var windowedOutput = [Double](repeating: 0, count: useSampleCount)
 
 		vDSP_hann_windowD( &windowData, vDSP_Length(useSampleCount), Int32(0) )
 		vDSP_vmulD( resampledIntervalsPointer, 1,
@@ -39,13 +39,27 @@ class BalanceIndexAnalyzer {
 					vDSP_Length(useSampleCount) )
 
 		// Transform to Complex
-		var imaginaryData = [Double](count: useSampleCount, repeatedValue: 0)
+		var imaginaryData = [Double](repeating: 0, count: useSampleCount)
 		var dspSplit = DSPDoubleSplitComplex( realp: &windowedOutput,
 											  imagp: &imaginaryData )
-
-		vDSP_ctozD( UnsafePointer<DSPDoubleComplex>(windowedOutput), 2,
-					&dspSplit, 1,
-					vDSP_Length(useSampleCount/2) )
+        
+        
+        windowedOutput.withUnsafeBufferPointer {
+            windowedOutputBuffer in
+            windowedOutputBuffer.baseAddress!.withMemoryRebound(
+                to: DSPDoubleComplex.self,
+                capacity: windowedOutput.count / (MemoryLayout<DSPDoubleComplex>.size/MemoryLayout<Double>.size)) {
+                windowedOutputAsComplex in
+                vDSP_ctozD( windowedOutputAsComplex, 2,
+                            &dspSplit, 1,
+                            vDSP_Length(useSampleCount/2) )
+                
+            }
+        }
+        
+		//vDSP_ctozD( UnsafeMutablePointer<DSPDoubleComplex>(windowedOutput), 2,
+		//			&dspSplit, 1,
+		//			vDSP_Length(useSampleCount/2) )
 
 		// Apply FFT
 		vDSP_fft_zripD( fftSetup, &dspSplit, 1, log2n, Int32(FFT_FORWARD) )
@@ -66,7 +80,7 @@ class BalanceIndexAnalyzer {
 
 		vDSP_destroy_fftsetupD(fftSetup)
 
-		var powers = [Double](count: useSampleCount, repeatedValue: 0.0)
+		var powers = [Double](repeating: 0.0, count: useSampleCount)
 		vDSP_zvmagsD( &dspSplit, 1,
 					  &powers, 1,
 					  vDSP_Length(useSampleCount/2) )
@@ -75,7 +89,7 @@ class BalanceIndexAnalyzer {
         
         var points = [LogSpectrumPoint]()
 		
-		for var i = 1; i < halfUsedSampleCount; i++ {
+		for i in 1 ..< halfUsedSampleCount {
             // Skip 0Hz
             let f = Double(i) * 1.0 / Double(useSampleCount)
             let freq = f * 1000.0 / Constants.RESMPLE_INTERAL_MS

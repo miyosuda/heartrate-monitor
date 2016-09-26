@@ -13,14 +13,14 @@ import Foundation
 */
 
 class SpectrumAnalyzer {
-	static func solveLinearEquations(inout mat: Array<Array<Double>>, inout v: [Double]) -> Bool {
+	static func solveLinearEquations(_ mat: inout Array<Array<Double>>, v: inout [Double]) -> Bool {
 		let degree = v.count
 
-		for var i = 0; i < degree - 1; ++i {
+		for i in 0 ..< degree - 1 {
 			var max = fabs(mat[i][i])
 			var maxi = i
 
-			for var j = i + 1; j < degree; ++j {
+			for j in i + 1 ..< degree {
 				let h = fabs(mat[j][i])
 				if h > max {
 					max = h
@@ -29,7 +29,7 @@ class SpectrumAnalyzer {
 			}
 
 			if maxi != i {
-				for var j = 0; j < degree; ++j {
+				for j in 0 ..< degree {
 					let tmp = mat[i][j]
 					mat[i][j] = mat[maxi][j]
 					mat[maxi][j] = tmp
@@ -48,10 +48,10 @@ class SpectrumAnalyzer {
 			}
 
 			// forward elimination
-			for var j = i + 1; j < degree; ++j {
+			for j in i + 1 ..< degree {
 				let q = mat[j][i] / pivot
 				mat[j][i] = 0.0
-				for var k = i + 1; k < degree; k++ {
+				for k in i + 1 ..< degree {
 					mat[j][k] -= (q * mat[i][k])
 				}
 				v[j] -= (q * v[i])
@@ -59,8 +59,8 @@ class SpectrumAnalyzer {
 		}
 
 		// backward substitution
-		for var i = degree - 1; i >= 0; --i {
-			for var j = degree - 1; j > i; --j {
+		for i in (0 ..< degree).reversed() {
+			for j in ((i + 1) ..< degree).reversed() {
 				v[i] -= (mat[i][j] * v[j])
 			}
 			v[i] /= mat[i][i]
@@ -69,24 +69,24 @@ class SpectrumAnalyzer {
 		return true
 	}
 
-	static func processYuleWalker(inputSeries: [Double], inout coefficients: [Double]) -> Bool {
+	static func processYuleWalker(_ inputSeries: [Double], coefficients: inout [Double]) -> Bool {
 		let degree = coefficients.count
 
-		var mat = Array<[Double]>(count: degree,
-				repeatedValue: [Double](count: degree, repeatedValue: 0.0))
+		var mat = Array<[Double]>(repeating: [Double](repeating: 0.0, count: degree),
+				count: degree)
 
 		let length = inputSeries.count
 
-		for var i = 0; i < degree; i++ {
-			for var n = 0; n < length - degree; n++ {
+		for i in 0 ..< degree {
+			for n in 0 ..< length - degree {
 				let ni = n + 1 + i
 				coefficients[i] += (inputSeries[n] * inputSeries[ni])
 			}
 		}
 
-		for var i = 0; i < degree; i++ {
-			for var j = i; j < degree; j++ {
-				for var n = 0; n < length - degree; n++ {
+		for i in 0 ..< degree {
+			for j in i ..< degree {
+				for n in 0 ..< length - degree {
 					let ni = n + 1 + i
 					let nj = n + 1 + j
 					mat[i][j] += (inputSeries[ni] * inputSeries[nj]);
@@ -95,9 +95,9 @@ class SpectrumAnalyzer {
 		}
 
 		let base = Double(length - degree)
-		for var i = 0; i < degree; i++ {
+		for i in 0 ..< degree {
 			coefficients[i] /= base
-			for var j = i; j < degree; j++ {
+			for j in i ..< degree {
 				mat[i][j] /= base
 				mat[j][i] = mat[i][j]
 			}
@@ -111,12 +111,12 @@ class SpectrumAnalyzer {
 		}
 	}
 
-	static func calcAutoRegressionCoeffs(rawInputSeries: [Double],
+	static func calcAutoRegressionCoeffs(_ rawInputSeries: [Double],
 										 degree: Int,
-										 inout aic: Double,
-										 inout sigma2: Double) -> [Double]? {
+										 aic: inout Double,
+										 sigma2: inout Double) -> [Double]? {
 		let length = rawInputSeries.count
-		var inputSeries: [Double] = [Double](count: length, repeatedValue: 0.0)
+		var inputSeries: [Double] = [Double](repeating: 0.0, count: length)
 
 		var mean = 0.0
 		for value in rawInputSeries {
@@ -124,11 +124,11 @@ class SpectrumAnalyzer {
 		}
 		mean /= Double(length)
 
-		for var i = 0; i < length; ++i {
+		for i in 0 ..< length {
 			inputSeries[i] = rawInputSeries[i] - mean;
 		}
 
-		var coefficients: [Double] = [Double](count: degree, repeatedValue: 0.0)
+		var coefficients: [Double] = [Double](repeating: 0.0, count: degree)
 
 		let ret = processYuleWalker(inputSeries, coefficients: &coefficients)
 		if !ret {
@@ -141,21 +141,21 @@ class SpectrumAnalyzer {
 		return coefficients
 	}
 
-	static func calcSigma2(inputSeries: [Double],
+	static func calcSigma2(_ inputSeries: [Double],
 						   coefficients: [Double]) -> Double {
 
 		// version of adding degree-size 0 before and after inputSeries 
 		let degree = coefficients.count
 		let originalLength = inputSeries.count
 
-		var extendedInputSeries = [Double](count: inputSeries.count + 2 * degree,
-				repeatedValue: 0.0)
+		var extendedInputSeries = [Double](repeating: 0.0,
+				count: inputSeries.count + 2 * degree)
 
 		//for var i=0; i<degree; ++i {
 		//	extendedInputSeries[i] = 0.0
 		//}
 
-		for var i = 0; i < originalLength; ++i {
+		for i in 0 ..< originalLength {
 			extendedInputSeries[degree + i] = inputSeries[i]
 		}
 
@@ -165,10 +165,10 @@ class SpectrumAnalyzer {
 
 		let length = extendedInputSeries.count
 		var s = 0.0
-		for var n = 0; n < length - degree; ++n {
+		for n in 0 ..< length - degree {
 			let xs = extendedInputSeries[n]
 			var xd = 0.0
-			for var i = 0; i < degree; ++i {
+			for i in 0 ..< degree {
 				let ni = n + 1 + i
 				xd += (coefficients[i] * extendedInputSeries[ni])
 			}
@@ -197,7 +197,7 @@ class SpectrumAnalyzer {
 		*/
 	}
 
-	static func calcAIC(sigma2: Double, length: Int, degree: Int) -> Double {
+	static func calcAIC(_ sigma2: Double, length: Int, degree: Int) -> Double {
 		// version of adding degree-size 0 before and after inputSeries
 		//var aic = Doubel(length) * ( log(2.0 * M_PI * sigma2) + 1.0 ) + 2.0 * (degree + 1)
 
@@ -209,20 +209,20 @@ class SpectrumAnalyzer {
 		return aic
 	}
 
-	static func calcSpectrum(coeffs: [Double], length: Int, sigma2: Double) -> SpectrumData {
+	static func calcSpectrum(_ coeffs: [Double], length: Int, sigma2: Double) -> SpectrumData {
 		let degree = coeffs.count
 		let spectrumLength = length / 2 + 1
 
 		var points = [SpectrumPoint]()
 
-		for var j = 0; j < spectrumLength; j++ {
+		for j in 0 ..< spectrumLength {
 			let f = Double(j) * 1.0 / Double(length)
 			let theta = 2.0 * M_PI * f
 
 			var rv = 1.0;
 			var iv = 0.0;
 
-			for var k = 0; k < degree; k++ {
+			for k in 0 ..< degree {
 				let a = coeffs[k]
 				let t = Double(-(k + 1)) * theta
 				rv -= a * cos(t)
@@ -242,7 +242,7 @@ class SpectrumAnalyzer {
 	* @param resampledIntervals
 	*           Resample intervals with Const.RESMPLE_INTERAL_MS millisec interval.
 	*/
-	static func process(resampledIntervals: [Double]) -> SpectrumData? {
+	static func process(_ resampledIntervals: [Double]) -> SpectrumData? {
 		var minAic = DBL_MAX
 		var bestSigma2 = 0.0
 		var bestDegree = -1
@@ -253,9 +253,9 @@ class SpectrumAnalyzer {
 			maxDegree = resampledIntervals.count
 		}
 
-		var aics = [Double](count: maxDegree, repeatedValue: DBL_MAX)
+		var aics = [Double](repeating: DBL_MAX, count: maxDegree)
 
-		for var i = 1; i < maxDegree; ++i {
+		for i in 1 ..< maxDegree {
 			var aic = 0.0
 			var sigma2 = 0.0
 			let coefficients: [Double]? =

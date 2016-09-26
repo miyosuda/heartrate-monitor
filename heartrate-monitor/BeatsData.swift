@@ -32,7 +32,7 @@ class BeatsData {
 		var time = 0.0
 		var interval = intervals[0]
 
-		for var i = 0; i < intervalSize; ++i {
+		for i in 0 ..< intervalSize {
 			let beat = Beat(time: time, interval: interval)
 			beats.append(beat)
 
@@ -62,13 +62,13 @@ class BeatsData {
 
 		var removedBeatCount = 0
 
-		for var i = 1; i < size; ++i {
+		for  i in  1 ..< size {
 			let beat = beats[i]
 			let rate = beat.interval / lastBeat.interval
 			if rate >= (1.0 - REGULAR_BEAT_INTERVAL_DIFF_RATE) && rate <= (1.0 + REGULAR_BEAT_INTERVAL_DIFF_RATE) {
 				newBeats.append(beat)
 			} else {
-				removedBeatCount++
+				removedBeatCount += 1
 			}
 			lastBeat = beat
 		}
@@ -111,7 +111,7 @@ class BeatsData {
 
 			let size = beats.count
 
-			for var i = 0; i < size - 1; ++i {
+			for i in 0 ..< size - 1 {
 				let interval0 = beats[i].interval
 				let interval1 = beats[i + 1].interval
 				let diff = interval1 - interval0
@@ -127,7 +127,7 @@ class BeatsData {
 			var count: Int = 0
 
 			let size = beats.count
-			for var i = 0; i < size - 1; ++i {
+			for  i in 0 ..< size - 1 {
 				let interval0 = beats[i].interval
 				let interval1 = beats[i + 1].interval
 				var diff = interval1 - interval0
@@ -137,7 +137,7 @@ class BeatsData {
 
 				if diff > 50.0 {
 					// greater than 50ms
-					count++
+					count += 1
 				}
 			}
 

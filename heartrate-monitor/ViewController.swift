@@ -42,7 +42,7 @@ class ViewController: NSViewController, HeartRateDelegate {
 		super.viewDidLoad()
 
 		stateLabel.stringValue = "init"
-		graphTabView.hidden = true
+		graphTabView.isHidden = true
 	}
 
 	override func viewDidAppear() {
@@ -50,6 +50,7 @@ class ViewController: NSViewController, HeartRateDelegate {
 
 		view.window!.title = "Heart rate monitor"
 
+        // hide breath view
 		breathView.prepare()
 	}
 
@@ -60,18 +61,13 @@ class ViewController: NSViewController, HeartRateDelegate {
 		}
 	}
 
-	override var representedObject: AnyObject? {
-		didSet {
-		}
-	}
-
-	@IBAction func onStartButtonPushed(sender: AnyObject) {
+	@IBAction func onStartButtonPushed(_ sender: AnyObject) {
 		if (heartRateCenter == nil) {
-			breathView.hidden = false
-			graphTabView.hidden = true
+			breathView.isHidden = false
+			graphTabView.isHidden = true
 			breathView.start()
 
-
+            // show breath view
 			heartRateCenter = HeartRateCenter(delegate: self)
 			heartRateCenter.setup()
 
@@ -82,17 +78,17 @@ class ViewController: NSViewController, HeartRateDelegate {
 			duration = 0.0
 
 			startButton.title = "Stop"
-			loadButton.hidden = true
+			loadButton.isHidden = true
 
 		} else {
-			breathView.hidden = true
-			graphTabView.hidden = false
+			breathView.isHidden = true
+			graphTabView.isHidden = false
 			breathView.stop()
 
 			heartRateCenter.cleanup()
 			heartRateCenter = nil
 			startButton.title = "Start"
-			loadButton.hidden = false
+			loadButton.isHidden = false
 
 			stateLabel.stringValue = "init"
 
@@ -102,12 +98,12 @@ class ViewController: NSViewController, HeartRateDelegate {
 		}
 	}
 
-	@IBAction func onLoadButtonPushed(sender: AnyObject) {
+	@IBAction func onLoadButtonPushed(_ sender: AnyObject) {
 		chooseLoadData()
 	}
 
 	func analyzeIntervals() {
-		graphTabView.hidden = false
+		graphTabView.isHidden = false
 
 		let beatsData = BeatsData(intervals: heartRateRRIntervalDatas)
 		beatsData.removeIrregularBeats()
@@ -126,8 +122,8 @@ class ViewController: NSViewController, HeartRateDelegate {
 		rmssdLabel.stringValue = String(format: "%.2f", rmssd)
 		pnn50Label.stringValue = String(format: "%.2f", pnn50)
 
-		let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
-		dispatch_async(queue) {
+        let concurrentQueue = DispatchQueue(label: "spectrum-analysis", attributes: .concurrent)
+        concurrentQueue.async {
 			// Resample intervals with Const.RESMPLE_INTERAL_MS millisec interval.
 			let resampledIntervals = SampleInterpolator.process(beatsData.beats)
 			if resampledIntervals == nil {
@@ -137,7 +133,7 @@ class ViewController: NSViewController, HeartRateDelegate {
 			// AR spectrum analysis
 			let spectrumData = SpectrumAnalyzer.process(resampledIntervals!)
 			if (spectrumData != nil) {
-				dispatch_async(dispatch_get_main_queue()) {
+				DispatchQueue.main.async {
 					self.showSpectrumGraph(spectrumData!)
 
 					let lf = spectrumData!.lf
@@ -150,24 +146,24 @@ class ViewController: NSViewController, HeartRateDelegate {
 			}
 
 			// BalanceIndex analysis
-			let logSpectrumData = BalanceIndexAnalyzer.process(resampledIntervals!)
+			let logSpectrumData = BalanceIndexAnalyzer.process(resampledIntervals: resampledIntervals!)
 			let (a, _ ) = logSpectrumData.calcSlope()
 			let balanceIndex = -a
 
-			dispatch_async(dispatch_get_main_queue()) {
-				self.showBalanceIndexGraph(logSpectrumData)
+			DispatchQueue.main.async {
+				self.showBalanceIndexGraph(logSpectrumData: logSpectrumData)
 				self.balanceIndexLabel.stringValue = String(format: "%.3f", balanceIndex)
 			}
 
 		}
 	}
 
-	func showSpectrumGraph(spectrumData: SpectrumData) {
+	func showSpectrumGraph(_ spectrumData: SpectrumData) {
 		spectrumGraphView.setSpectrumData(spectrumData)
 	}
 
 	func showBalanceIndexGraph(logSpectrumData: LogSpectrumData) {
-		balanceIndexGraphView.setLogSpectrumData(logSpectrumData)
+		balanceIndexGraphView.setLogSpectrumData(logSpectrumData: logSpectrumData)
 	}
 
 	func chooseLoadData() {
@@ -177,24 +173,24 @@ class ViewController: NSViewController, HeartRateDelegate {
 		panel.canCreateDirectories = false
 		panel.canChooseFiles = true
 		panel.allowedFileTypes = ["txt"]
-		panel.beginWithCompletionHandler {
+		panel.begin {
 			(result) -> Void in
 			if result == NSFileHandlingPanelOKButton {
-				self.loadData(panel.URL)
+				self.loadData(panel.url)
 			}
 		}
 	}
 
-	func loadData(url: NSURL?) {
+	func loadData(_ url: URL?) {
 		if url == nil {
 			return
 		}
 
-		let path = url!.path!
+		let path = url!.path
 
 		var data: String? = nil
 		do {
-			try data = NSString(contentsOfFile: path, encoding: NSUTF8StringEncoding) as String
+			try data = NSString(contentsOfFile: path, encoding: String.Encoding.utf8.rawValue) as String
 		} catch let err as NSError {
 			print("write to file failed: " + err.localizedDescription)
 		}
@@ -221,18 +217,18 @@ class ViewController: NSViewController, HeartRateDelegate {
 			panel.nameFieldLabel = "File Name"
 
 			// set default filename
-			let dateFormatter = NSDateFormatter()
-			dateFormatter.locale = NSLocale(localeIdentifier: "en_US")
+			let dateFormatter = DateFormatter()
+			dateFormatter.locale = Locale(identifier: "en_US")
 			dateFormatter.dateFormat = "yyyyMMdd_HHmmss"
-			let now = NSDate()
-			let dateStr = dateFormatter.stringFromDate(now)
+			let now = Date()
+			let dateStr = dateFormatter.string(from: now)
 			panel.nameFieldStringValue = String(format: "rr_\(dateStr).txt")
 
 			// show save dialog
-			panel.beginWithCompletionHandler({
+			panel.begin(completionHandler: {
 				(result: Int) -> Void in
 				if result == NSFileHandlingPanelOKButton {
-					let saveURL = panel.URL
+					let saveURL = panel.url
 					if (saveURL != nil) {
 						print("save url=\(saveURL)")
 						self.saveRRIntervalData(saveURL!)
@@ -242,8 +238,8 @@ class ViewController: NSViewController, HeartRateDelegate {
 		}
 	}
 
-	func saveRRIntervalData(url: NSURL) {
-		let path = url.path!
+	func saveRRIntervalData(_ url: URL) {
+		let path = url.path
 
 		// rr msec interval
 		var content = ""
@@ -252,7 +248,7 @@ class ViewController: NSViewController, HeartRateDelegate {
 		}
 
 		do {
-			try content.writeToFile(path, atomically: false, encoding: NSUTF8StringEncoding);
+			try content.write(toFile: path, atomically: false, encoding: String.Encoding.utf8);
 		} catch let err as NSError {
 			print("write to file failed: " + err.localizedDescription)
 		}
@@ -269,13 +265,13 @@ class ViewController: NSViewController, HeartRateDelegate {
 		stateLabel.stringValue = "disconnected"
 	}
 
-	func heartRateRRDidArrive(rr: Double) {
+	func heartRateRRDidArrive(_ rr: Double) {
 		print("<rr=\(rr)>")
 		heartRateRRIntervalDatas.append(rr);
 
 		duration += (rr / 1000.0);
 
-		heartRateRRCount++;
+		heartRateRRCount += 1;
 		heartRateRRCountLabel.stringValue = String("\(heartRateRRCount)")
 		let heartRateValue = 60.0 * 1000.0 / rr;
 		heartRateValueLabel.stringValue = String(format: "%.2f", heartRateValue)
