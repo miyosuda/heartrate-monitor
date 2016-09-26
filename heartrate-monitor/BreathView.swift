@@ -10,14 +10,14 @@ import Foundation
 import AppKit
 
 class BreathView: NSView {
-	private let UPDATE_INTERVAL_SEC: Double = 0.05
-	private let BREATH_INTERVAL_SEC: Double = 4.0
+	fileprivate let UPDATE_INTERVAL_SEC: Double = 0.05
+	fileprivate let BREATH_INTERVAL_SEC: Double = 4.0
 
-	private var timer: NSTimer!
-	private var startDate: NSDate!
+	fileprivate var timer: Timer!
+	fileprivate var startDate: Date!
 
-	override func drawRect(rect: CGRect) {
-		super.drawRect(rect)
+	override func draw(_ rect: CGRect) {
+		super.draw(rect)
 
 		if timer == nil {
 			return
@@ -26,16 +26,16 @@ class BreathView: NSView {
 		let width = frame.width
 		let height = frame.height
 
-		let time = NSDate().timeIntervalSinceDate(startDate!)
+		let time = Date().timeIntervalSince(startDate!)
 		let phase = (time / BREATH_INTERVAL_SEC) * M_PI * 2.0
 		let rate = (CGFloat)(1.0 - ((1.0 + cos(phase)) * 0.5))
 
 		let rect = NSMakeRect(0, 0, width, height * rate)
-		NSColor.whiteColor().set()
+		NSColor.white.set()
 		NSRectFill(rect)
 
 		let frameRect = NSMakeRect(0, 0, width, height)
-		NSColor.blackColor().set()
+		NSColor.black.set()
 		NSFrameRect(frameRect)
 	}
 
@@ -44,23 +44,23 @@ class BreathView: NSView {
 	}
 
 	func prepare() {
-		hidden = true
+		isHidden = true
 	}
 
 	func start() {
-		startDate = NSDate()
+		startDate = Date()
 
-		timer = NSTimer.scheduledTimerWithTimeInterval(UPDATE_INTERVAL_SEC,
+		timer = Timer.scheduledTimer(timeInterval: UPDATE_INTERVAL_SEC,
 				target: self,
-				selector: Selector("onUpdate"),
+				selector: #selector(BreathView.onUpdate),
 				userInfo: nil,
 				repeats: true)
 
-		hidden = false
+		isHidden = false
 	}
 
 	func stop() {
-		hidden = true
+		isHidden = true
 
 		if timer != nil {
 			timer.invalidate()

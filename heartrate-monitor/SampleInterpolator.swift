@@ -18,18 +18,18 @@ struct Beat {
 
 class Sample {
 	/// interpolated time in msec
-	private var time: Double = 0.0
+	fileprivate var time: Double = 0.0
 
 	// index of beat before this sample
-	private var beatIndex0: Int = -1
+	fileprivate var beatIndex0: Int = -1
 
 	// index of beat after this sample
-	private var beatIndex1: Int = -1
+	fileprivate var beatIndex1: Int = -1
 
 	// resampled interval in msec
-	private var resampledInterval: Double = 0.0
+	fileprivate var resampledInterval: Double = 0.0
 
-	func setBeatIndex1(index1: Int) {
+	func setBeatIndex1(_ index1: Int) {
 		// if beat index1 is alerady set, do nothing
 		if (beatIndex1 == -1) {
 			beatIndex1 = index1
@@ -53,7 +53,7 @@ class Sample {
 		}
 	}
 
-	func resampleInterval(beats: [Beat]) {
+	func resampleInterval(_ beats: [Beat]) {
 		let beat0 = beats[beatIndex0]
 		let beat1 = beats[beatIndex1]
 
@@ -80,7 +80,7 @@ class SampleInterpolator {
 	/**
 	* Resample RR intervals with interval of Const.RESMPLE_INTERAL_MS millisec.
 	*/
-	static func process(intervals: [Double]) -> [Double]? {
+	static func process(_ intervals: [Double]) -> [Double]? {
 		var beats: [Beat] = []
 		var samples: [Sample] = []
 
@@ -94,7 +94,7 @@ class SampleInterpolator {
 		var time = 0.0
 		var interval = intervals[0]
 
-		for var i = 0; i < intervalSize; ++i {
+		for i in 0 ..< intervalSize {
 			let beat = Beat(time: time, interval: interval)
 			beats.append(beat)
 
@@ -110,13 +110,13 @@ class SampleInterpolator {
 		// put 4 samples per one second
 		let sampleSize = Int(floor(lastTime / Constants.RESMPLE_INTERAL_MS)) + 1
 
-		for var i = 0; i < sampleSize; ++i {
+		for i in 0 ..< sampleSize {
 			let sample = Sample()
 			sample.time = Double(i) * Constants.RESMPLE_INTERAL_MS
 			samples.append(sample)
 		}
 
-		for var i = 0; i < beats.count; ++i {
+		for i in 0 ..< beats.count {
 			let beat = beats[i]
 			let time = beat.time
 			let beforeTimeIndex = Int(floor(time / Constants.RESMPLE_INTERAL_MS))
@@ -127,12 +127,12 @@ class SampleInterpolator {
 			samples[beforeTimeIndex].setBeatIndex1(i)
 		}
 
-		for var i = 0; i < sampleSize; ++i {
+		for i in 0 ..< sampleSize {
 			let sample = samples[i]
 			if !sample.isIndex1Set() {
 				// need to set sample's index1.
 				// finding among latter samples, and copy first found one.
-				for var j = i + 1; j < sampleSize; ++j {
+				for j in i + 1 ..< sampleSize {
 					let sample1 = samples[j]
 					if sample1.isIndex1Set() {
 						sample.setBeatIndex1(sample1.beatIndex1)

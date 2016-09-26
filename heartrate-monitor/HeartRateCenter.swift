@@ -28,7 +28,7 @@ class HeartRateCenter: NSObject, CBCentralManagerDelegate {
 		let services = [CBUUID(string: HEART_RATE_SERVICE)]
 		let options: Dictionary = [CBCentralManagerScanOptionAllowDuplicatesKey: false];
 
-		self.centralManager.scanForPeripheralsWithServices(services, options: options)
+		self.centralManager.scanForPeripherals(withServices: services, options: options)
 	}
 
 	func cleanup() {
@@ -40,45 +40,45 @@ class HeartRateCenter: NSObject, CBCentralManagerDelegate {
 		}
 	}
 
-	func centralManagerDidUpdateState(central: CBCentralManager) {
+	func centralManagerDidUpdateState(_ central: CBCentralManager) {
 		switch (central.state) {
-		case .Unknown:
+		case .unknown:
 			print("state: unknown")
 			break;
-		case .Resetting:
+		case .resetting:
 			print("state: resetting")
 			break;
-		case .Unsupported:
+		case .unsupported:
 			print("state: unsupported")
 			break;
-		case .Unauthorized:
+		case .unauthorized:
 			print("state: unauthorized")
 			break;
-		case .PoweredOff:
+		case .poweredOff:
 			print("state: power off")
 			break;
-		case .PoweredOn:
+		case .poweredOn:
 			print("state: power on")
 			break;
 		}
 	}
 
-	func centralManager(central: CBCentralManager,
-						didDiscoverPeripheral peripheral: CBPeripheral,
-						advertisementData: [String:AnyObject],
-						RSSI: NSNumber) {
+	func centralManager(_ central: CBCentralManager,
+						didDiscover peripheral: CBPeripheral,
+						advertisementData: [String:Any],
+						rssi RSSI: NSNumber) {
 
 		print("peripheral: \(peripheral) rssi=\(RSSI) data=\(advertisementData)")
 
 		// we need to store reference to peripheral
 		self.peripheral = peripheral
                             
-		self.centralManager.connectPeripheral(self.peripheral, options: nil)
+		self.centralManager.connect(self.peripheral, options: nil)
 		self.centralManager.stopScan()
 	}
 
-	func centralManager(central: CBCentralManager,
-						didConnectPeripheral peripheral: CBPeripheral) {
+	func centralManager(_ central: CBCentralManager,
+						didConnect peripheral: CBPeripheral) {
 
 		print("connected!")
 		delegate.heartRateDeviceDidConnect()
@@ -87,11 +87,11 @@ class HeartRateCenter: NSObject, CBCentralManagerDelegate {
 		heartRatePeripheral.setup(peripheral)
 	}
 
-	func centralManager(central: CBCentralManager, didFailToConnectPeripheral peripheral: CBPeripheral, error: NSError?) {
+	func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
 		print("didFailToConnectPeripheral")
 	}
 
-	func centralManager(central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: NSError?) {
+	func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
 		print("didDisconnectPeripheral")
 		delegate.heartRateDeviceDidDisconnect()
 	}

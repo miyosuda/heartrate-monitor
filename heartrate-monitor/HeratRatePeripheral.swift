@@ -44,13 +44,13 @@ class HeartRatePerihepral: NSObject, CBPeripheralDelegate {
 		self.delegate = delegate
 	}
 
-	func setup(peripheral: CBPeripheral) {
+	func setup(_ peripheral: CBPeripheral) {
 		peripheral.delegate = self;
 		// NOTE you might only discover HR service, but on this example we discover all services
 		peripheral.discoverServices(nil)
 	}
 
-	func peripheral(peripheral: CBPeripheral, didDiscoverServices error: NSError?) {
+	func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
 
 		print("didDiscoverServices")
 
@@ -59,15 +59,15 @@ class HeartRatePerihepral: NSObject, CBPeripheralDelegate {
 		}
 
 		for service in peripheral.services! {
-			if service.UUID == CBUUID(string: HEART_RATE_SERVICE) {
+			if service.uuid == CBUUID(string: HEART_RATE_SERVICE) {
 				let service: CBService = service as CBService;
-				peripheral.discoverCharacteristics(nil, forService: service);
+				peripheral.discoverCharacteristics(nil, for: service);
 			}
 		}
 	}
 
-	func peripheral(peripheral: CBPeripheral, didDiscoverCharacteristicsForService service: CBService,
-					error: NSError?) {
+	func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService,
+					error: Error?) {
 
 		print("didDiscoverCharacteristicsForService")
 
@@ -75,33 +75,33 @@ class HeartRatePerihepral: NSObject, CBPeripheralDelegate {
 			return;
 		}
 
-		if service.UUID == CBUUID(string: HEART_RATE_SERVICE) {
+		if service.uuid == CBUUID(string: HEART_RATE_SERVICE) {
 			for character in service.characteristics! {
 				let ch: CBCharacteristic = character as CBCharacteristic;
-				if ch.UUID == CBUUID(string: HEART_RATE_MEASUREMENT) {
-					peripheral.setNotifyValue(true, forCharacteristic: ch)
+				if ch.uuid == CBUUID(string: HEART_RATE_MEASUREMENT) {
+					peripheral.setNotifyValue(true, for: ch)
 				}
 			}
 		}
 	}
 
-    func getUInt16Value(dataPtr: UnsafePointer<UInt8>, offset: Int) -> UInt16 {
+    func getUInt16Value(_ dataPtr: UnsafePointer<UInt8>, offset: Int) -> UInt16 {
 		let value0: UInt32 = UInt32(dataPtr[offset + 1])
 		let value1: UInt32 = UInt32(dataPtr[offset])
 		return UInt16(value0 << 8 + value1)
 	}
 
-	func peripheral(peripheral: CBPeripheral, didUpdateValueForCharacteristic characteristic: CBCharacteristic,
-					error: NSError?) {
+	func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic,
+					error: Error?) {
 
 		if error != nil {
 			return;
 		}
 
-		if characteristic.UUID == CBUUID(string: HEART_RATE_MEASUREMENT) {
-			let value: NSData? = characteristic.value
-			let dataPtr: UnsafePointer<UInt8> = UnsafePointer<UInt8>(value!.bytes)
-			let dataSize: Int = value!.length
+		if characteristic.uuid == CBUUID(string: HEART_RATE_MEASUREMENT) {
+			let value: Data? = characteristic.value
+			let dataPtr: UnsafePointer<UInt8> = (value! as NSData).bytes.bindMemory(to: UInt8.self, capacity: value!.count)
+			let dataSize: Int = value!.count
 
 			let flags: UInt8 = dataPtr[0]
 			let heartRateFlags = HeartRateFlags(flag: flags)

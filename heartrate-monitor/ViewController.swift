@@ -46,6 +46,7 @@ class ViewController: NSViewController, HeartRateDelegate {
 
 		view.window!.title = "Heart rate monitor"
 
+        // hide breath view
 		breathView.prepare()
 	}
 
@@ -56,15 +57,11 @@ class ViewController: NSViewController, HeartRateDelegate {
 		}
 	}
 
-	override var representedObject: AnyObject? {
-		didSet {
-		}
-	}
-
-	@IBAction func onStartButtonPushed(sender: AnyObject) {
+	@IBAction func onStartButtonPushed(_ sender: AnyObject) {
 		if (heartRateCenter == nil) {
 			breathView.start()
 
+            // show breath view
 			heartRateCenter = HeartRateCenter(delegate: self)
 			heartRateCenter.setup()
 
@@ -75,15 +72,16 @@ class ViewController: NSViewController, HeartRateDelegate {
 			duration = 0.0
 
 			startButton.title = "Stop"
-			loadButton.hidden = true
+			loadButton.isHidden = true
 
 		} else {
+            // hide breath view
 			breathView.stop()
 
 			heartRateCenter.cleanup()
 			heartRateCenter = nil
 			startButton.title = "Start"
-			loadButton.hidden = false
+			loadButton.isHidden = false
 
 			stateLabel.stringValue = "init"
 
@@ -93,7 +91,7 @@ class ViewController: NSViewController, HeartRateDelegate {
 		}
 	}
 
-	@IBAction func onLoadButtonPushed(sender: AnyObject) {
+	@IBAction func onLoadButtonPushed(_ sender: AnyObject) {
 		chooseLoadData()
 	}
 
@@ -109,26 +107,26 @@ class ViewController: NSViewController, HeartRateDelegate {
 		pnn50Label.stringValue = String(format: "%.2f", pnn50)
 
 		let copiedHeartRateRRIntervalDatas = heartRateRRIntervalDatas
-
-		let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
-		dispatch_async(queue) {
-			let spectrumData = SpectrumAnalyzer.process(copiedHeartRateRRIntervalDatas)
-			if (spectrumData != nil) {
-				dispatch_async(dispatch_get_main_queue()) {
-					self.showSpectrumGraph(spectrumData!)
-
+        
+        let concurrentQueue = DispatchQueue(label: "spectrum-analysis", attributes: .concurrent)
+        concurrentQueue.async {
+            let spectrumData = SpectrumAnalyzer.process(copiedHeartRateRRIntervalDatas!)
+            if (spectrumData != nil) {
+                DispatchQueue.main.async {
+                    self.showSpectrumGraph(spectrumData!)
+                    
                     let lf = spectrumData!.lf
                     let hf = spectrumData!.hf
                     let lfhf = lf/hf
                     self.lfLabel.stringValue = String(format: "%.3f", lf)
                     self.hfLabel.stringValue = String(format: "%.3f", hf)
                     self.lfhfLabel.stringValue = String(format: "%.3f", lfhf)
-				}
-			}
-		}
+                }
+            }
+        }
 	}
 
-	func showSpectrumGraph(spectrumData: SpectrumData) {
+	func showSpectrumGraph(_ spectrumData: SpectrumData) {
 		spectrumGraphView.setSpectrumData(spectrumData)
 	}
 
@@ -139,24 +137,24 @@ class ViewController: NSViewController, HeartRateDelegate {
 		panel.canCreateDirectories = false
 		panel.canChooseFiles = true
 		panel.allowedFileTypes = ["txt"]
-		panel.beginWithCompletionHandler {
+		panel.begin {
 			(result) -> Void in
 			if result == NSFileHandlingPanelOKButton {
-				self.loadData(panel.URL)
+				self.loadData(panel.url)
 			}
 		}
 	}
 
-	func loadData(url: NSURL?) {
+	func loadData(_ url: URL?) {
 		if url == nil {
 			return
 		}
 
-		let path = url!.path!
+		let path = url!.path
 
 		var data: String? = nil
 		do {
-			try data = NSString(contentsOfFile: path, encoding: NSUTF8StringEncoding) as String
+			try data = NSString(contentsOfFile: path, encoding: String.Encoding.utf8.rawValue) as String
 		} catch let err as NSError {
 			print("write to file failed: " + err.localizedDescription)
 		}
@@ -183,18 +181,18 @@ class ViewController: NSViewController, HeartRateDelegate {
 			panel.nameFieldLabel = "File Name"
 
 			// set default filename
-			let dateFormatter = NSDateFormatter()
-			dateFormatter.locale = NSLocale(localeIdentifier: "en_US")
+			let dateFormatter = DateFormatter()
+			dateFormatter.locale = Locale(identifier: "en_US")
 			dateFormatter.dateFormat = "yyyyMMdd_HHmmss"
-			let now = NSDate()
-			let dateStr = dateFormatter.stringFromDate(now)
+			let now = Date()
+			let dateStr = dateFormatter.string(from: now)
 			panel.nameFieldStringValue = String(format: "rr_\(dateStr).txt")
 
 			// show save dialog
-			panel.beginWithCompletionHandler({
+			panel.begin(completionHandler: {
 				(result: Int) -> Void in
 				if result == NSFileHandlingPanelOKButton {
-					let saveURL = panel.URL
+					let saveURL = panel.url
 					if (saveURL != nil) {
 						print("save url=\(saveURL)")
 						self.saveRRIntervalData(saveURL!)
@@ -204,8 +202,8 @@ class ViewController: NSViewController, HeartRateDelegate {
 		}
 	}
 
-	func saveRRIntervalData(url: NSURL) {
-		let path = url.path!
+	func saveRRIntervalData(_ url: URL) {
+		let path = url.path
 
 		// rr msec interval
 		var content = ""
@@ -214,7 +212,7 @@ class ViewController: NSViewController, HeartRateDelegate {
 		}
 
 		do {
-			try content.writeToFile(path, atomically: false, encoding: NSUTF8StringEncoding);
+			try content.write(toFile: path, atomically: false, encoding: String.Encoding.utf8);
 		} catch let err as NSError {
 			print("write to file failed: " + err.localizedDescription)
 		}
@@ -231,13 +229,13 @@ class ViewController: NSViewController, HeartRateDelegate {
 		stateLabel.stringValue = "disconnected"
 	}
 
-	func heartRateRRDidArrive(rr: Double) {
+	func heartRateRRDidArrive(_ rr: Double) {
 		print("<rr=\(rr)>")
 		heartRateRRIntervalDatas.append(rr);
 
 		duration += (rr / 1000.0);
 
-		heartRateRRCount++;
+		heartRateRRCount += 1;
 		heartRateRRCountLabel.stringValue = String("\(heartRateRRCount)")
 		let heartRateValue = 60.0 * 1000.0 / rr;
 		heartRateValueLabel.stringValue = String(format: "%.2f", heartRateValue)

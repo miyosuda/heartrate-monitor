@@ -10,7 +10,7 @@ import Foundation
 
 class HRVUtils {
 
-	static func calcAVNN(intervals: [Double]) -> Double {
+	static func calcAVNN(_ intervals: [Double]) -> Double {
 		var sum = 0.0
 		for interval in intervals {			
 			sum += interval
@@ -20,7 +20,7 @@ class HRVUtils {
 		return sum / Double(size);
 	}
 
-	static func calcSDNN(intervals: [Double]) -> Double {
+	static func calcSDNN(_ intervals: [Double]) -> Double {
 		let average = calcAVNN(intervals)
 		var d = 0.0
 		
@@ -33,11 +33,11 @@ class HRVUtils {
 		return sqrt(d / Double(size))
 	}
 
-	static func calcRMSSD(intervals: [Double]) -> Double {
+	static func calcRMSSD(_ intervals: [Double]) -> Double {
 		var d = 0.0
 
 		let size = intervals.count
-		for var i = 0; i < size - 1; ++i {
+		for i in 0 ..< size - 1 {
 			let interval0 = intervals[i]
 			let interval1 = intervals[i + 1]
 			let diff = interval1 - interval0
@@ -47,11 +47,11 @@ class HRVUtils {
 		return sqrt(d / Double(size - 1))
 	}
 
-	static func calcPNN50(intervals: [Double]) -> Double {
+	static func calcPNN50(_ intervals: [Double]) -> Double {
 		var count: Int = 0
 
 		let size = intervals.count
-		for var i = 0; i < size - 1; ++i {
+		for i in 0 ..< size - 1 {
 			let interval0 = intervals[i]
 			let interval1 = intervals[i + 1]
 			var diff = interval1 - interval0
@@ -61,7 +61,7 @@ class HRVUtils {
 
 			if diff > 50.0 {
 				// greater than 50ms
-				count++
+				count += 1
 			}
 		}
 

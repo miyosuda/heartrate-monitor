@@ -11,5 +11,5 @@ import Foundation
 protocol HeartRateDelegate: class {
 	func heartRateDeviceDidConnect()
 	func heartRateDeviceDidDisconnect()
-	func heartRateRRDidArrive(rr: Double)
+	func heartRateRRDidArrive(_ rr: Double)
 }
