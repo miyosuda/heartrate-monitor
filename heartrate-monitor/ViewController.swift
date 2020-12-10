@@ -139,7 +139,7 @@ class ViewController: NSViewController, HeartRateDelegate {
 		panel.allowedFileTypes = ["txt"]
 		panel.begin {
 			(result) -> Void in
-			if result == NSFileHandlingPanelOKButton {
+            if result == NSApplication.ModalResponse.OK {
 				self.loadData(panel.url)
 			}
 		}
@@ -190,11 +190,11 @@ class ViewController: NSViewController, HeartRateDelegate {
 
 			// show save dialog
 			panel.begin(completionHandler: {
-				(result: Int) -> Void in
-				if result == NSFileHandlingPanelOKButton {
+				(result: NSApplication.ModalResponse) -> Void in
+				if result == NSApplication.ModalResponse.OK {
 					let saveURL = panel.url
 					if (saveURL != nil) {
-						print("save url=\(saveURL)")
+                        print("save url=\(String(describing: saveURL))")
 						self.saveRRIntervalData(saveURL!)
 					}
 				}
