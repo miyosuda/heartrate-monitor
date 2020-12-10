@@ -203,7 +203,7 @@ class SpectrumAnalyzer {
 
 		// version of not adding degree-size 0 before and after inputSeries
 		let a = Double(length + degree)
-		let b = (log(2.0 * M_PI * sigma2) + 1.0)
+        let b = (log(2.0 * Double.pi * sigma2) + 1.0)
 		let c = 2.0 * (Double(degree) + 1.0)
 		let aic = a * b + c
 		return aic
@@ -217,7 +217,7 @@ class SpectrumAnalyzer {
 
 		for j in 0 ..< spectrumLength {
 			let f = Double(j) * 1.0 / Double(length)
-			let theta = 2.0 * M_PI * f
+			let theta = 2.0 * Double.pi * f
 
 			var rv = 1.0;
 			var iv = 0.0;
@@ -243,7 +243,7 @@ class SpectrumAnalyzer {
 	*           Resample intervals with Const.RESMPLE_INTERAL_MS millisec interval.
 	*/
 	static func process(_ resampledIntervals: [Double]) -> SpectrumData? {
-		var minAic = DBL_MAX
+		var minAic = Double.greatestFiniteMagnitude
 		var bestSigma2 = 0.0
 		var bestDegree = -1
 		var maxDegree = 50
@@ -253,7 +253,7 @@ class SpectrumAnalyzer {
 			maxDegree = resampledIntervals.count
 		}
 
-		var aics = [Double](repeating: DBL_MAX, count: maxDegree)
+		var aics = [Double](repeating: Double.greatestFiniteMagnitude, count: maxDegree)
 
 		for i in 1 ..< maxDegree {
 			var aic = 0.0

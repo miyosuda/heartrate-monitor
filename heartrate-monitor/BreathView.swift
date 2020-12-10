@@ -27,19 +27,19 @@ class BreathView: NSView {
 		let height = frame.height
 
 		let time = Date().timeIntervalSince(startDate!)
-		let phase = (time / BREATH_INTERVAL_SEC) * M_PI * 2.0
+        let phase = (time / BREATH_INTERVAL_SEC) * Double.pi * 2.0
 		let rate = (CGFloat)(1.0 - ((1.0 + cos(phase)) * 0.5))
 
 		let rect = NSMakeRect(0, 0, width, height * rate)
 		NSColor.white.set()
-		NSRectFill(rect)
+        rect.fill()
 
 		let frameRect = NSMakeRect(0, 0, width, height)
 		NSColor.black.set()
-		NSFrameRect(frameRect)
+        frameRect.frame()
 	}
 
-	func onUpdate() {
+    @objc func onUpdate() {
 		needsDisplay = true
 	}
 

@@ -18,17 +18,21 @@ class BalanceIndexGraphView: NSView {
 	}
 
 	private func drawHorizontalGridValue(value: Double, x: Double, y: Double) {
-		let style = NSParagraphStyle.default().mutableCopy() as! NSMutableParagraphStyle
+		let style = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
 		style.alignment = NSTextAlignment.center
-		let attr = [NSParagraphStyleAttributeName: style]
+        let attr: [NSAttributedStringKey : Any] = [
+            .paragraphStyle : style,
+        ]
 		let str = NSString(string: String(format: "%.1f", value))
         str.draw(in: CGRect(x:x - 20.0, y:y - 20, width:40.0, height:40.0), withAttributes: attr)
 	}
 
 	private func drawHorizontalString(str: String, x: Double, y: Double) {
-		let style = NSParagraphStyle.default().mutableCopy() as! NSMutableParagraphStyle
+		let style = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
 		style.alignment = NSTextAlignment.center
-		let attr = [NSParagraphStyleAttributeName: style]
+        let attr: [NSAttributedStringKey : Any] = [
+            .paragraphStyle : style,
+        ]
         str.draw(in: CGRect(x:x - 50.0, y:y - 20, width: 100.0, height:40.0), withAttributes: attr)
 	}
 
@@ -47,9 +51,11 @@ class BalanceIndexGraphView: NSView {
 	}
 
 	private func drawVerticalString(str: String, x: Double, y: Double) {
-		let style = NSParagraphStyle.default().mutableCopy() as! NSMutableParagraphStyle
+		let style = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
 		style.alignment = NSTextAlignment.right
-		let attr = [NSParagraphStyleAttributeName: style]
+        let attr: [NSAttributedStringKey : Any] = [
+            .paragraphStyle : style,
+        ]
         str.draw(in: CGRect( x: x - 100.0, y:y - 8, width: 100.0, height: 16.0), withAttributes: attr)
 	}
 

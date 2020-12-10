@@ -25,7 +25,7 @@ struct LogSpectrumData {
 	
 	var minLogPsd: Double {
 		get {
-			var min = DBL_MAX
+			var min = Double.greatestFiniteMagnitude
 			
 			for point in points {
 				if point.logPsd < min {
@@ -38,7 +38,7 @@ struct LogSpectrumData {
 	
 	var maxLogPsd: Double {
 		get {
-			var max = DBL_MIN
+			var max = Double.leastNormalMagnitude
 			
 			for point in points {
 				if point.logPsd > max {
