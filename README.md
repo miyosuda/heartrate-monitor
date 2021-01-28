@@ -2,7 +2,7 @@
 
 Heart rate variabirity (HRV) analysis tool with Polar H7/H6 on MacOSX.
 
-![image](http://narr.jp/private/miyoshi/heartrate_monitor/hrv_screen1.png)
+![image](./docs/images/hrv_screen1.png)
 
 You can analyze your heart rate variavirity to detect autonomic nerve state, with calculating parameters below.
 
@@ -22,4 +22,4 @@ For Polar H7/H6 sensor data's detail, please refer
 
 http://developer.polar.com/wiki/H6_and_H7_Heart_rate_sensors
 
-![image](http://narr.jp/private/miyoshi/heartrate_monitor/polar_h7.jpg)
+![image](./docs/images/polar_h7.jpg)
