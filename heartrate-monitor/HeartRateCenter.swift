@@ -23,12 +23,6 @@ class HeartRateCenter: NSObject, CBCentralManagerDelegate {
 
 	func setup() {
 		self.centralManager = CBCentralManager(delegate: self, queue: nil)
-
-		let HEART_RATE_SERVICE: String = "180D"
-		let services = [CBUUID(string: HEART_RATE_SERVICE)]
-		let options: Dictionary = [CBCentralManagerScanOptionAllowDuplicatesKey: false];
-
-		self.centralManager.scanForPeripherals(withServices: services, options: options)
 	}
 
 	func cleanup() {
@@ -59,6 +53,10 @@ class HeartRateCenter: NSObject, CBCentralManagerDelegate {
 			break;
 		case .poweredOn:
 			print("state: power on")
+            let HEART_RATE_SERVICE: String = "180D"
+            let services = [CBUUID(string: HEART_RATE_SERVICE)]
+            let options: Dictionary = [CBCentralManagerScanOptionAllowDuplicatesKey: false];
+            self.centralManager.scanForPeripherals(withServices: services, options: options)
 			break;
 		}
 	}
