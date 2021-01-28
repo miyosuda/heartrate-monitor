@@ -101,7 +101,7 @@ class BeatsData {
 			}
 
 			let size = beats.count
-			return sqrt(d / Double(size))
+			return sqrt(d / Double(size - 1))
 		}
 	}
 
