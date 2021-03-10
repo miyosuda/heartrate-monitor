@@ -17,6 +17,12 @@ DerivedData
 *.ipa
 *.xcuserstate
 
+# Xcode project files except for the project file
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata
+
+
 # CocoaPods
 #
 # We recommend against adding the Pods directory to your .gitignore. However

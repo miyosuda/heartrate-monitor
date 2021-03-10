@@ -69,32 +69,33 @@ class SpectrumAnalyzer {
 		return true
 	}
 
-	static func processYuleWalker(_ inputSeries: [Double], coefficients: inout [Double]) -> Bool {
+	static func processYuleWalker(_ inputSeries: [Double],
+                                  coefficients: inout [Double]) -> Bool {
 		let degree = coefficients.count
 
 		var mat = Array<[Double]>(repeating: [Double](repeating: 0.0, count: degree),
 				count: degree)
 
-		let length = inputSeries.count
-
+		let length = inputSeries.count        
+        
 		for i in 0 ..< degree {
-			for n in 0 ..< length - degree {
+            for n in 0 ..< length -  i - 1 {
 				let ni = n + 1 + i
 				coefficients[i] += (inputSeries[n] * inputSeries[ni])
 			}
 		}
-
+        
 		for i in 0 ..< degree {
 			for j in i ..< degree {
-				for n in 0 ..< length - degree {
-					let ni = n + 1 + i
-					let nj = n + 1 + j
+                for n in 0 ..< length - j {
+                    let ni = n + i
+                    let nj = n + j
 					mat[i][j] += (inputSeries[ni] * inputSeries[nj]);
 				}
 			}
 		}
 
-		let base = Double(length - degree)
+        let base = Double(length)
 		for i in 0 ..< degree {
 			coefficients[i] /= base
 			for j in i ..< degree {
@@ -102,7 +103,7 @@ class SpectrumAnalyzer {
 				mat[j][i] = mat[i][j]
 			}
 		}
-
+        
 		if solveLinearEquations(&mat, v: &coefficients) == false {
 			print("linear solver failed")
 			return false
@@ -136,6 +137,7 @@ class SpectrumAnalyzer {
 		}
 
 		sigma2 = calcSigma2(inputSeries, coefficients: coefficients)
+        print(sigma2) //..
 		aic = calcAIC(sigma2, length: length, degree: degree)
 
 		return coefficients
@@ -151,17 +153,9 @@ class SpectrumAnalyzer {
 		var extendedInputSeries = [Double](repeating: 0.0,
 				count: inputSeries.count + 2 * degree)
 
-		//for var i=0; i<degree; ++i {
-		//	extendedInputSeries[i] = 0.0
-		//}
-
 		for i in 0 ..< originalLength {
 			extendedInputSeries[degree + i] = inputSeries[i]
 		}
-
-		//for var i=0; i<degree; ++i {
-		//	extendedInputSeries[originalLength + degree + i] = 0.0
-		//}
 
 		let length = extendedInputSeries.count
 		var s = 0.0
@@ -176,31 +170,9 @@ class SpectrumAnalyzer {
 			s += (d * d)
 		}
 		return s / Double(length - degree)
-
-		// version of not adding degree-size 0 before and after inputSeries
-		/*
-		let degree = coefficients.count
-		let length = inputSeries.count
-	
-		var s = 0.0
-		for var n=0; n<length-degree; ++n {
-			let xs = inputSeries[n]
-			var xd = 0.0
-			for var i=0; i<degree; ++i {
-				let ni = n+1+i
-				xd += (coefficients[i] * inputSeries[ni])
-			 }
-		     let d = xs - xd
-			 s += (d * d)
-		}
-		return s / Double(length - degree)
-		*/
 	}
 
 	static func calcAIC(_ sigma2: Double, length: Int, degree: Int) -> Double {
-		// version of adding degree-size 0 before and after inputSeries
-		//var aic = Doubel(length) * ( log(2.0 * M_PI * sigma2) + 1.0 ) + 2.0 * (degree + 1)
-
 		// version of not adding degree-size 0 before and after inputSeries
 		let a = Double(length + degree)
         let b = (log(2.0 * Double.pi * sigma2) + 1.0)
