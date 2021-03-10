@@ -88,19 +88,23 @@ class heartrate_monitorTests: XCTestCase {
         var aic = 0.0
         var sigma2 = 0.0
         let degree = 3
+
         let coefficients: [Double]? =
             SpectrumAnalyzer.calcAutoRegressionCoeffs(resampledIntervals,
                                                        degree: degree,
                                                        aic: &aic,
                                                        sigma2: &sigma2)
         
-        print(coefficients ?? 0.0)
-        print(sigma2)
-        print(aic)
+        XCTAssertEqual(aic, -163.37177974868302, accuracy: epsilon)
+        XCTAssertEqual(sigma2, 0.18770272775563604, accuracy: epsilon)
         
-        // [old]
-        // -0.10485316087758097, 0.14546111924183386, -0.21012857036945848])
-        // 0.17496308198006164
-        // 120.75376823510214
+        if let coefficients_ = coefficients {
+            XCTAssertEqual(coefficients_.count, 3)
+            XCTAssertEqual(coefficients_[0], -0.10543678, accuracy: epsilon)
+            XCTAssertEqual(coefficients_[1],  0.13691384, accuracy: epsilon)
+            XCTAssertEqual(coefficients_[2], -0.20731021, accuracy: epsilon)
+        } else {
+            XCTAssertFalse(true)
+        }
     }
 }

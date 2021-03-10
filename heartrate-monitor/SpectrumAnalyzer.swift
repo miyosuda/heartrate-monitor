@@ -70,46 +70,56 @@ class SpectrumAnalyzer {
 	}
 
 	static func processYuleWalker(_ inputSeries: [Double],
-                                  coefficients: inout [Double]) -> Bool {
+                                  coefficients: inout [Double],
+                                  sigma2: inout Double,
+                                  aic: inout Double) -> Bool {
 		let degree = coefficients.count
 
 		var mat = Array<[Double]>(repeating: [Double](repeating: 0.0, count: degree),
 				count: degree)
 
-		let length = inputSeries.count        
+		let length = inputSeries.count
         
-		for i in 0 ..< degree {
-            for n in 0 ..< length -  i - 1 {
-				let ni = n + 1 + i
-				coefficients[i] += (inputSeries[n] * inputSeries[ni])
-			}
-		}
+        var rr = [Double](repeating: 0.0, count: degree+1)
         
-		for i in 0 ..< degree {
-			for j in i ..< degree {
-                for n in 0 ..< length - j {
-                    let ni = n + i
-                    let nj = n + j
-					mat[i][j] += (inputSeries[ni] * inputSeries[nj]);
-				}
-			}
-		}
-
-        let base = Double(length)
-		for i in 0 ..< degree {
-			coefficients[i] /= base
-			for j in i ..< degree {
-				mat[i][j] /= base
-				mat[j][i] = mat[i][j]
-			}
-		}
+        for d in 0 ..< degree+1 {
+            for n in 0 ..< length - d {
+                let nd = n + d
+                rr[d] += (inputSeries[n] * inputSeries[nd])
+            }
+        }
         
-		if solveLinearEquations(&mat, v: &coefficients) == false {
+        for i in 0..<degree+1 {
+            rr[i] /= Double(length)
+        }
+        
+        for i in 0..<degree {
+            coefficients[i] = rr[i+1]
+        }
+        
+        for i in 0 ..< degree {
+            for j in 0 ..< degree {
+                mat[i][j] = rr[abs(i-j)]
+            }
+        }
+        
+        let ret = solveLinearEquations(&mat, v: &coefficients)
+        
+		if ret == false {
 			print("linear solver failed")
 			return false
-		} else {
-			return true
 		}
+        
+        sigma2 = rr[0]
+        for i in 0 ..< degree {
+            sigma2 -= rr[i+1] * coefficients[i]
+        }
+        
+        aic = Double(length) * log(sigma2) + 2 * Double(degree) + 2
+        
+        sigma2 = sigma2 / (Double(length) - Double(degree) - 1) * Double(length) // R compatible
+        
+        return true
 	}
 
 	static func calcAutoRegressionCoeffs(_ rawInputSeries: [Double],
@@ -130,55 +140,16 @@ class SpectrumAnalyzer {
 		}
 
 		var coefficients: [Double] = [Double](repeating: 0.0, count: degree)
-
-		let ret = processYuleWalker(inputSeries, coefficients: &coefficients)
+        
+		let ret = processYuleWalker(inputSeries,
+                                    coefficients: &coefficients,
+                                    sigma2: &sigma2,
+                                    aic: &aic)
 		if !ret {
 			return nil
 		}
 
-		sigma2 = calcSigma2(inputSeries, coefficients: coefficients)
-        print(sigma2) //..
-		aic = calcAIC(sigma2, length: length, degree: degree)
-
 		return coefficients
-	}
-
-	static func calcSigma2(_ inputSeries: [Double],
-						   coefficients: [Double]) -> Double {
-
-		// version of adding degree-size 0 before and after inputSeries 
-		let degree = coefficients.count
-		let originalLength = inputSeries.count
-
-		var extendedInputSeries = [Double](repeating: 0.0,
-				count: inputSeries.count + 2 * degree)
-
-		for i in 0 ..< originalLength {
-			extendedInputSeries[degree + i] = inputSeries[i]
-		}
-
-		let length = extendedInputSeries.count
-		var s = 0.0
-		for n in 0 ..< length - degree {
-			let xs = extendedInputSeries[n]
-			var xd = 0.0
-			for i in 0 ..< degree {
-				let ni = n + 1 + i
-				xd += (coefficients[i] * extendedInputSeries[ni])
-			}
-			let d = xs - xd
-			s += (d * d)
-		}
-		return s / Double(length - degree)
-	}
-
-	static func calcAIC(_ sigma2: Double, length: Int, degree: Int) -> Double {
-		// version of not adding degree-size 0 before and after inputSeries
-		let a = Double(length + degree)
-        let b = (log(2.0 * Double.pi * sigma2) + 1.0)
-		let c = 2.0 * (Double(degree) + 1.0)
-		let aic = a * b + c
-		return aic
 	}
 
 	static func calcSpectrum(_ coeffs: [Double], length: Int, sigma2: Double) -> SpectrumData {
