@@ -158,6 +158,8 @@ class SpectrumAnalyzer {
 
 		var points = [SpectrumPoint]()
 
+        let samplingRate = 1000.0 / Constants.RESMPLE_INTERAL_MS
+
 		for j in 0 ..< spectrumLength {
 			let f = Double(j) * 1.0 / Double(length)
 			let theta = 2.0 * Double.pi * f
@@ -172,8 +174,8 @@ class SpectrumAnalyzer {
 				iv -= a * sin(t)
 			}
 
-			let psd = sigma2 / (rv * rv + iv * iv)
-			let realFreq = f * 1000.0 / Constants.RESMPLE_INTERAL_MS
+			let psd = sigma2 / (rv * rv + iv * iv) / samplingRate
+			let realFreq = f * samplingRate
 			points.append(SpectrumPoint(frequency: realFreq, psd: psd))
 		}
 
@@ -217,11 +219,12 @@ class SpectrumAnalyzer {
 			}
 		}
 
+        print("best coeffcients=\(String(describing: bestCoeffcients))")
 		print("best degree=\(bestDegree)")
 		print("best sigma2=\(bestSigma2)")
 
 		if maxDegree != -1 {
-			return calcSpectrum(bestCoeffcients!, length: resampledIntervals.count, sigma2: bestSigma2)
+			return calcSpectrum(bestCoeffcients!, length: 4096, sigma2: bestSigma2)
 		} else {
 			return nil
 		}
